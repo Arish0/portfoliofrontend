@@ -28,7 +28,7 @@ export default defineConfig({
     port: 5173
   },
   build: {
-    outDir: '../backend/dist/client',
+    outDir: 'dist',
     emptyOutDir: true,
     rollupOptions: {
       input: {
