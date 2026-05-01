@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio Admin Panel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+</head>
+<body class="font-dm-mono text-cyber-text bg-gradient-to-b from-[#070913] to-[#020207]">
+  <main class="max-w-7xl mx-auto px-6 py-8 space-y-6">
+    <div id="loginCard" class="bg-cyber-panel border border-white/8 rounded-3xl p-8">
+      <div class="max-w-lg mx-auto">
+        <h1 class="text-3xl font-syne font-bold mb-4 text-cyber-accent">Admin access</h1>
+        <p class="text-cyber-muted mb-6">Enter username and password to manage the portfolio content.</p>
+        <div class="space-y-4">
+          <div>
+            <label for="adminUsername" class="block text-cyber-muted text-sm mb-2">Username</label>
+            <input id="adminUsername" class="w-full px-4 py-2 rounded-2xl bg-white/4 border border-white/8 text-cyber-text focus:outline-none focus:border-cyber-accent" type="text" placeholder="hari" />
+          </div>
+          <div>
+            <label for="adminPassword" class="block text-cyber-muted text-sm mb-2">Password</label>
+            <input id="adminPassword" class="w-full px-4 py-2 rounded-2xl bg-white/4 border border-white/8 text-cyber-text focus:outline-none focus:border-cyber-accent" type="password" placeholder="••••••••" />
+          </div>
+          <div class="flex justify-end">
+            <button id="loginBtn" class="px-6 py-2 rounded-full bg-gradient-to-r from-cyber-accent to-cyan-400 text-cyber-dark font-bold hover:shadow-lg transition">Sign in</button>
+          </div>
+          <div id="loginError" class="hidden px-4 py-3 rounded-2xl bg-cyber-accent/12 text-cyan-200 border border-cyber-accent/20"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="adminControls" class="hidden">
+      <div class="grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-6 items-start">
+        <aside class="lg:sticky lg:top-6 bg-cyber-panel border border-white/8 rounded-3xl p-4">
+          <p class="px-3 pb-3 text-cyber-muted text-xs uppercase tracking-widest">Admin menu</p>
+          <nav id="adminMenu" class="grid gap-2">
+            <a class="admin-menu-link px-3 py-2 rounded-2xl text-cyber-muted hover:text-cyber-accent hover:bg-white/4 transition" href="#heroSection" data-section="heroSection">Hero</a>
+            <a class="admin-menu-link px-3 py-2 rounded-2xl text-cyber-muted hover:text-cyber-accent hover:bg-white/4 transition" href="#sliderSection" data-section="sliderSection">Slider items</a>
+            <a class="admin-menu-link px-3 py-2 rounded-2xl text-cyber-muted hover:text-cyber-accent hover:bg-white/4 transition" href="#skillsSection" data-section="skillsSection">Skills</a>
+            <a class="admin-menu-link px-3 py-2 rounded-2xl text-cyber-muted hover:text-cyber-accent hover:bg-white/4 transition" href="#toolsSection" data-section="toolsSection">Tools</a>
+            <a class="admin-menu-link px-3 py-2 rounded-2xl text-cyber-muted hover:text-cyber-accent hover:bg-white/4 transition" href="#experienceSection" data-section="experienceSection">Experience</a>
+            <a class="admin-menu-link px-3 py-2 rounded-2xl text-cyber-muted hover:text-cyber-accent hover:bg-white/4 transition" href="#contactSection" data-section="contactSection">Contact</a>
+            <a class="admin-menu-link px-3 py-2 rounded-2xl text-cyber-muted hover:text-cyber-accent hover:bg-white/4 transition" href="#activitySection" data-section="activitySection">Recent activity</a>
+            <a class="admin-menu-link px-3 py-2 rounded-2xl text-cyber-muted hover:text-cyber-accent hover:bg-white/4 transition" href="#visitorsSection" data-section="visitorsSection">Recent views</a>
+          </nav>
+        </aside>
+        <div class="space-y-6">
+      <div class="sticky top-4 z-20 flex gap-4 justify-between items-center bg-cyber-panel/95 border border-white/8 rounded-3xl p-4 backdrop-blur-xl">
+        <p class="text-cyber-muted text-sm">Admin panel</p>
+        <div class="flex gap-4">
+        <button id="logoutBtn" class="px-6 py-2 rounded-full border border-white/12 bg-transparent text-cyber-text hover:border-cyber-accent transition">Logout</button>
+        <button id="saveBtn" class="px-6 py-2 rounded-full bg-gradient-to-r from-cyber-accent to-cyan-400 text-cyber-dark font-bold hover:shadow-lg transition">Save changes</button>
+        </div>
+      </div>
+
+      <div id="heroSection" class="admin-section bg-cyber-panel border border-white/8 rounded-3xl p-8 space-y-4">
+        <h2 class="text-2xl font-syne font-bold">Hero Section</h2>
+        <div>
+          <label class="block text-cyber-muted text-sm mb-2">Title</label>
+          <input id="heroTitle" class="w-full px-4 py-2 rounded-2xl bg-white/4 border border-white/8 text-cyber-text focus:outline-none focus:border-cyber-accent" type="text" />
+        </div>
+        <div>
+          <label class="block text-cyber-muted text-sm mb-2">Role / Subtitle</label>
+          <input id="heroRole" class="w-full px-4 py-2 rounded-2xl bg-white/4 border border-white/8 text-cyber-text focus:outline-none focus:border-cyber-accent" type="text" />
+        </div>
+        <div>
+          <label class="block text-cyber-muted text-sm mb-2">Company</label>
+          <input id="heroCompany" class="w-full px-4 py-2 rounded-2xl bg-white/4 border border-white/8 text-cyber-text focus:outline-none focus:border-cyber-accent" type="text" />
+        </div>
+        <div>
+          <label class="block text-cyber-muted text-sm mb-2">Tagline</label>
+          <input id="heroTagline" class="w-full px-4 py-2 rounded-2xl bg-white/4 border border-white/8 text-cyber-text focus:outline-none focus:border-cyber-accent" type="text" />
+        </div>
+        <div>
+          <label class="block text-cyber-muted text-sm mb-2">Description</label>
+          <textarea id="heroSummary" class="w-full px-4 py-2 rounded-2xl bg-white/4 border border-white/8 text-cyber-text focus:outline-none focus:border-cyber-accent min-h-32"></textarea>
+        </div>
+      </div>
+
+      <div id="sliderSection" class="admin-section bg-cyber-panel border border-white/8 rounded-3xl p-8 space-y-4">
+        <h2 class="text-2xl font-syne font-bold">Slider items</h2>
+        <div id="sliderList"></div>
+        <button id="addSliderItem" class="px-6 py-2 rounded-full border border-white/12 bg-transparent text-cyber-text hover:border-cyber-accent transition">Add slider item</button>
+      </div>
+
+      <div id="skillsSection" class="admin-section bg-cyber-panel border border-white/8 rounded-3xl p-8 space-y-4">
+        <h2 class="text-2xl font-syne font-bold">Skills</h2>
+        <div id="skillsList"></div>
+        <button id="addSkill" class="px-6 py-2 rounded-full border border-white/12 bg-transparent text-cyber-text hover:border-cyber-accent transition">Add skill</button>
+      </div>
+
+      <div id="toolsSection" class="admin-section bg-cyber-panel border border-white/8 rounded-3xl p-8 space-y-4">
+        <h2 class="text-2xl font-syne font-bold">Tools</h2>
+        <div id="toolList"></div>
+        <button id="addToolCategory" class="px-6 py-2 rounded-full border border-white/12 bg-transparent text-cyber-text hover:border-cyber-accent transition">Add category</button>
+      </div>
+
+      <div id="experienceSection" class="admin-section bg-cyber-panel border border-white/8 rounded-3xl p-8 space-y-4">
+        <h2 class="text-2xl font-syne font-bold">Experience</h2>
+        <div id="experienceList"></div>
+        <button id="addExperience" class="px-6 py-2 rounded-full border border-white/12 bg-transparent text-cyber-text hover:border-cyber-accent transition">Add experience</button>
+      </div>
+
+      <div id="contactSection" class="admin-section bg-cyber-panel border border-white/8 rounded-3xl p-8 space-y-4">
+        <h2 class="text-2xl font-syne font-bold">Contact</h2>
+        <div>
+          <label class="block text-cyber-muted text-sm mb-2">Email</label>
+          <input id="contactEmailInput" class="w-full px-4 py-2 rounded-2xl bg-white/4 border border-white/8 text-cyber-text focus:outline-none focus:border-cyber-accent" type="text" />
+        </div>
+        <div>
+          <label class="block text-cyber-muted text-sm mb-2">LinkedIn</label>
+          <input id="contactLinkedinInput" class="w-full px-4 py-2 rounded-2xl bg-white/4 border border-white/8 text-cyber-text focus:outline-none focus:border-cyber-accent" type="text" />
+        </div>
+        <div>
+          <label class="block text-cyber-muted text-sm mb-2">GitHub</label>
+          <input id="contactGithubInput" class="w-full px-4 py-2 rounded-2xl bg-white/4 border border-white/8 text-cyber-text focus:outline-none focus:border-cyber-accent" type="text" />
+        </div>
+      </div>
+
+      <div id="activitySection" class="admin-section bg-cyber-panel border border-white/8 rounded-3xl p-8 space-y-4">
+        <h2 class="text-2xl font-syne font-bold">Recent Activity</h2>
+        <div>
+          <label class="block text-cyber-muted text-sm mb-2">Date</label>
+          <input id="activityDate" class="w-full px-4 py-2 rounded-2xl bg-white/4 border border-white/8 text-cyber-text focus:outline-none focus:border-cyber-accent" type="date" />
+        </div>
+        <div>
+          <label class="block text-cyber-muted text-sm mb-2">Activity</label>
+          <textarea id="activityText" class="w-full px-4 py-2 rounded-2xl bg-white/4 border border-white/8 text-cyber-text focus:outline-none focus:border-cyber-accent min-h-24"></textarea>
+        </div>
+        <button id="addActivityBtn" class="px-6 py-2 rounded-full border border-white/12 bg-transparent text-cyber-text hover:border-cyber-accent transition">Add activity</button>
+        <div id="activityFeed" class="space-y-3 mt-4"></div>
+      </div>
+
+      <div id="visitorsSection" class="admin-section bg-cyber-panel border border-white/8 rounded-3xl p-8 space-y-4">
+        <div class="flex items-center justify-between gap-4">
+          <h2 class="text-2xl font-syne font-bold">Recent Portfolio Views</h2>
+          <button id="refreshVisitorsBtn" class="px-4 py-1.5 rounded-full border border-white/12 bg-transparent text-cyber-text hover:border-cyber-accent transition">Refresh</button>
+        </div>
+        <p class="text-cyber-muted text-sm">Latest 10 visitors only. Older records are removed automatically.</p>
+        <div id="visitorFeed" class="space-y-3 mt-4"></div>
+      </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <script type="module" src="/src/admin.ts"></script>
+</body>
+</html>
