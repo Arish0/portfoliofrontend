@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/hari-admin",
+      "destination": "/admin.html"
+    },
+    {
+      "source": "/hari-admin/",
+      "destination": "/admin.html"
+    }
+  ]
+}
