@@ -153,8 +153,8 @@ const refreshVisitorsBtn = document.getElementById('refreshVisitorsBtn') as HTML
 const adminMenuLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('.admin-menu-link'));
 
 let portfolioData: PortfolioData | null = null;
-let csrfToken = sessionStorage.getItem(ADMIN_CSRF_TOKEN_KEY) || '';
-let adminAuthToken = sessionStorage.getItem(ADMIN_AUTH_TOKEN_KEY) || '';
+let csrfToken = localStorage.getItem(ADMIN_CSRF_TOKEN_KEY) || sessionStorage.getItem(ADMIN_CSRF_TOKEN_KEY) || '';
+let adminAuthToken = localStorage.getItem(ADMIN_AUTH_TOKEN_KEY) || sessionStorage.getItem(ADMIN_AUTH_TOKEN_KEY) || '';
 let visitorSocketStarted = false;
 let visitorSocket: Socket | null = null;
 let visitorFallbackRefresh: number | null = null;
@@ -187,6 +187,28 @@ function secureFetch(input: RequestInfo | URL, init: RequestInit = {}): Promise<
   }
   const request = typeof input === 'string' && input.startsWith('/') ? apiUrl(input) : input;
   return fetch(request, { ...init, headers, cache: 'no-store', credentials: 'include' });
+}
+
+function storeAdminTokens(payload: { csrfToken?: string; authToken?: string }): void {
+  csrfToken = payload.csrfToken || csrfToken;
+  adminAuthToken = payload.authToken || adminAuthToken;
+  if (csrfToken) {
+    localStorage.setItem(ADMIN_CSRF_TOKEN_KEY, csrfToken);
+    sessionStorage.setItem(ADMIN_CSRF_TOKEN_KEY, csrfToken);
+  }
+  if (adminAuthToken) {
+    localStorage.setItem(ADMIN_AUTH_TOKEN_KEY, adminAuthToken);
+    sessionStorage.setItem(ADMIN_AUTH_TOKEN_KEY, adminAuthToken);
+  }
+}
+
+function clearAdminTokens(): void {
+  csrfToken = '';
+  adminAuthToken = '';
+  localStorage.removeItem(ADMIN_CSRF_TOKEN_KEY);
+  localStorage.removeItem(ADMIN_AUTH_TOKEN_KEY);
+  sessionStorage.removeItem(ADMIN_CSRF_TOKEN_KEY);
+  sessionStorage.removeItem(ADMIN_AUTH_TOKEN_KEY);
 }
 
 async function responseError(response: Response, fallback: string): Promise<Error> {
@@ -799,8 +821,8 @@ function syncFormValues(): void {
 function loadAdminState(): void {
   secureFetch('/api/auth')
     .then((res) => res.json())
-    .then((auth: { authenticated?: boolean; csrfToken?: string }) => {
-      csrfToken = auth.csrfToken || csrfToken;
+    .then((auth: { authenticated?: boolean; csrfToken?: string; authToken?: string }) => {
+      storeAdminTokens(auth);
       if (auth.authenticated) {
         hideElement(loginCard);
         showElement(adminControls);
@@ -808,9 +830,7 @@ function loadAdminState(): void {
         loadVisitors();
         startVisitorSocket();
       } else {
-        adminAuthToken = '';
-        sessionStorage.removeItem(ADMIN_AUTH_TOKEN_KEY);
-        sessionStorage.removeItem(ADMIN_CSRF_TOKEN_KEY);
+        clearAdminTokens();
         stopVisitorSocket();
         showElement(loginCard);
         hideElement(adminControls);
@@ -818,10 +838,7 @@ function loadAdminState(): void {
     })
     .catch(() => {
       stopVisitorSocket();
-      csrfToken = '';
-      adminAuthToken = '';
-      sessionStorage.removeItem(ADMIN_AUTH_TOKEN_KEY);
-      sessionStorage.removeItem(ADMIN_CSRF_TOKEN_KEY);
+      clearAdminTokens();
       showElement(loginCard);
       hideElement(adminControls);
       showError('Unable to reach the backend. Check the Render backend URL and try again.');
@@ -926,14 +943,7 @@ loginBtn.addEventListener('click', () => {
       return res.json();
     })
     .then((payload: { csrfToken?: string; authToken?: string }) => {
-      csrfToken = payload.csrfToken || '';
-      adminAuthToken = payload.authToken || '';
-      if (csrfToken) {
-        sessionStorage.setItem(ADMIN_CSRF_TOKEN_KEY, csrfToken);
-      }
-      if (adminAuthToken) {
-        sessionStorage.setItem(ADMIN_AUTH_TOKEN_KEY, adminAuthToken);
-      }
+      storeAdminTokens(payload);
       hideElement(loginCard);
       showElement(adminControls);
       loadPortfolioData();
@@ -945,10 +955,7 @@ loginBtn.addEventListener('click', () => {
 
 logoutBtn.addEventListener('click', () => {
   secureFetch('/api/logout', { method: 'POST' }).then(() => {
-    csrfToken = '';
-    adminAuthToken = '';
-    sessionStorage.removeItem(ADMIN_AUTH_TOKEN_KEY);
-    sessionStorage.removeItem(ADMIN_CSRF_TOKEN_KEY);
+    clearAdminTokens();
     stopVisitorSocket();
     showElement(loginCard);
     hideElement(adminControls);
