@@ -58,7 +58,8 @@ type PortfolioData = {
 
 type PortfolioTheme = 'light' | 'mint' | 'dark';
 
-const BACKEND_URL = (import.meta.env.VITE_BACKEND_URL || '').replace(/\/$/, '');
+const DEFAULT_BACKEND_URL = 'https://portfoliobackend-qfgh.onrender.com';
+const BACKEND_URL = (import.meta.env.VITE_BACKEND_URL || DEFAULT_BACKEND_URL).replace(/\/$/, '');
 const THEME_STORAGE_KEY = 'portfolio_theme';
 const themeLabels: Record<PortfolioTheme, string> = {
   light: 'Light',

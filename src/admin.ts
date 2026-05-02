@@ -97,7 +97,8 @@ interface PortfolioData {
   recentActivity: Activity[];
 }
 
-const BACKEND_URL = (import.meta.env.VITE_BACKEND_URL || '').replace(/\/$/, '');
+const DEFAULT_BACKEND_URL = 'https://portfoliobackend-qfgh.onrender.com';
+const BACKEND_URL = (import.meta.env.VITE_BACKEND_URL || DEFAULT_BACKEND_URL).replace(/\/$/, '');
 const SOCKET_URL = (import.meta.env.VITE_SOCKET_URL || BACKEND_URL).replace(/\/$/, '');
 const ADMIN_AUTH_TOKEN_KEY = 'portfolio_admin_auth_token';
 const ADMIN_CSRF_TOKEN_KEY = 'portfolio_admin_csrf_token';
