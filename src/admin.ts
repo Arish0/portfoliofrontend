@@ -98,6 +98,8 @@ interface PortfolioData {
 
 const BACKEND_URL = (import.meta.env.VITE_BACKEND_URL || '').replace(/\/$/, '');
 const SOCKET_URL = (import.meta.env.VITE_SOCKET_URL || BACKEND_URL).replace(/\/$/, '');
+const ADMIN_AUTH_TOKEN_KEY = 'portfolio_admin_auth_token';
+const ADMIN_CSRF_TOKEN_KEY = 'portfolio_admin_csrf_token';
 
 function apiUrl(path: string): string {
   return `${BACKEND_URL}${path}`;
@@ -151,7 +153,8 @@ const refreshVisitorsBtn = document.getElementById('refreshVisitorsBtn') as HTML
 const adminMenuLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('.admin-menu-link'));
 
 let portfolioData: PortfolioData | null = null;
-let csrfToken = '';
+let csrfToken = sessionStorage.getItem(ADMIN_CSRF_TOKEN_KEY) || '';
+let adminAuthToken = sessionStorage.getItem(ADMIN_AUTH_TOKEN_KEY) || '';
 let visitorSocketStarted = false;
 let visitorSocket: Socket | null = null;
 let visitorFallbackRefresh: number | null = null;
@@ -178,6 +181,9 @@ function secureFetch(input: RequestInfo | URL, init: RequestInit = {}): Promise<
   const headers = new Headers(init.headers);
   if (csrfToken) {
     headers.set('X-CSRF-Token', csrfToken);
+  }
+  if (adminAuthToken) {
+    headers.set('Authorization', `Bearer ${adminAuthToken}`);
   }
   const request = typeof input === 'string' && input.startsWith('/') ? apiUrl(input) : input;
   return fetch(request, { ...init, headers, cache: 'no-store', credentials: 'include' });
@@ -791,10 +797,10 @@ function syncFormValues(): void {
 
 // Data loading functions
 function loadAdminState(): void {
-  fetch(apiUrl('/api/auth'), { cache: 'no-store', credentials: 'include' })
+  secureFetch('/api/auth')
     .then((res) => res.json())
     .then((auth: { authenticated?: boolean; csrfToken?: string }) => {
-      csrfToken = auth.csrfToken || '';
+      csrfToken = auth.csrfToken || csrfToken;
       if (auth.authenticated) {
         hideElement(loginCard);
         showElement(adminControls);
@@ -802,6 +808,9 @@ function loadAdminState(): void {
         loadVisitors();
         startVisitorSocket();
       } else {
+        adminAuthToken = '';
+        sessionStorage.removeItem(ADMIN_AUTH_TOKEN_KEY);
+        sessionStorage.removeItem(ADMIN_CSRF_TOKEN_KEY);
         stopVisitorSocket();
         showElement(loginCard);
         hideElement(adminControls);
@@ -810,6 +819,9 @@ function loadAdminState(): void {
     .catch(() => {
       stopVisitorSocket();
       csrfToken = '';
+      adminAuthToken = '';
+      sessionStorage.removeItem(ADMIN_AUTH_TOKEN_KEY);
+      sessionStorage.removeItem(ADMIN_CSRF_TOKEN_KEY);
       showElement(loginCard);
       hideElement(adminControls);
       showError('Unable to reach the backend. Check the Render backend URL and try again.');
@@ -913,8 +925,15 @@ loginBtn.addEventListener('click', () => {
       if (!res.ok) throw new Error('Invalid credentials');
       return res.json();
     })
-    .then((payload: { csrfToken?: string }) => {
+    .then((payload: { csrfToken?: string; authToken?: string }) => {
       csrfToken = payload.csrfToken || '';
+      adminAuthToken = payload.authToken || '';
+      if (csrfToken) {
+        sessionStorage.setItem(ADMIN_CSRF_TOKEN_KEY, csrfToken);
+      }
+      if (adminAuthToken) {
+        sessionStorage.setItem(ADMIN_AUTH_TOKEN_KEY, adminAuthToken);
+      }
       hideElement(loginCard);
       showElement(adminControls);
       loadPortfolioData();
@@ -927,6 +946,9 @@ loginBtn.addEventListener('click', () => {
 logoutBtn.addEventListener('click', () => {
   secureFetch('/api/logout', { method: 'POST' }).then(() => {
     csrfToken = '';
+    adminAuthToken = '';
+    sessionStorage.removeItem(ADMIN_AUTH_TOKEN_KEY);
+    sessionStorage.removeItem(ADMIN_CSRF_TOKEN_KEY);
     stopVisitorSocket();
     showElement(loginCard);
     hideElement(adminControls);
