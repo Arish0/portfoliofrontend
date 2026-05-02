@@ -55,7 +55,25 @@ type PortfolioData = {
   recentActivity: { date: string; activity: string }[];
 };
 
+type PortfolioTheme = 'light' | 'mint' | 'dark';
+
 const BACKEND_URL = (import.meta.env.VITE_BACKEND_URL || '').replace(/\/$/, '');
+const THEME_STORAGE_KEY = 'portfolio_theme';
+
+const themeLabels: Record<PortfolioTheme, string> = {
+  light: 'Light',
+  mint: 'Fresh',
+  dark: 'Dark'
+};
+
+const readStoredTheme = (): PortfolioTheme => {
+  try {
+    const storedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+    return storedTheme === 'mint' || storedTheme === 'dark' ? storedTheme : 'light';
+  } catch {
+    return 'light';
+  }
+};
 
 const apiUrl = (path: string): string => `${BACKEND_URL}${path}`;
 
@@ -100,9 +118,18 @@ const getInitials = (value: string): string => {
 function App(): JSX.Element {
   const [data, setData] = useState<PortfolioData | null>(null);
   const [activeSlide, setActiveSlide] = useState<number>(0);
-  const [spannerMode, setSpannerMode] = useState<boolean>(false);
+  const [theme, setTheme] = useState<PortfolioTheme>(readStoredTheme);
   const [error, setError] = useState<string>('');
   const slideTimer = useRef<number>();
+
+  useEffect((): void => {
+    document.documentElement.dataset.portfolioTheme = theme;
+    try {
+      localStorage.setItem(THEME_STORAGE_KEY, theme);
+    } catch {
+      // Theme persistence is a convenience; the UI still works without storage.
+    }
+  }, [theme]);
 
   useEffect((): void => {
     loadPortfolioOnce()
@@ -155,9 +182,10 @@ function App(): JSX.Element {
   }
 
   return (
-    <div className={`min-h-screen ${spannerMode ? 'spanner-active' : ''}`}>
+    <div className={`portfolio-app min-h-screen theme-${theme}`}>
+      <div className="ambient-ribbon" aria-hidden="true"></div>
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-4 bg-black/55 border-b border-white/8 backdrop-blur-3xl">
+      <nav className="portfolio-nav fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-4 bg-black/55 border-b border-white/8 backdrop-blur-3xl">
         <div className="flex items-center gap-4">
           <div className="brand-tube">{getInitials(data.hero.title)}</div>
           <div>
@@ -165,12 +193,24 @@ function App(): JSX.Element {
             <p className="m-0 text-cyber-muted text-xs">{data.hero.role}</p>
           </div>
         </div>
-        <div className="flex gap-6 flex-wrap">
-          {['About', 'Skills', 'Tools', 'Experience', 'Contact'].map((item) => (
-            <a key={item} href={`#${item.toLowerCase()}`} className="text-cyber-muted hover:text-cyber-accent transition-colors">
-              {item}
-            </a>
-          ))}
+        <div className="flex items-center gap-5 flex-wrap">
+          <div className="hidden md:flex gap-6 flex-wrap">
+            {['About', 'Skills', 'Tools', 'Experience', 'Contact'].map((item) => (
+              <a key={item} href={`#${item.toLowerCase()}`} className="text-cyber-muted hover:text-cyber-accent transition-colors">
+                {item}
+              </a>
+            ))}
+          </div>
+          <label className="theme-picker">
+            <span>Theme</span>
+            <select value={theme} onChange={(event) => setTheme(event.target.value as PortfolioTheme)}>
+              {(Object.keys(themeLabels) as PortfolioTheme[]).map((themeOption) => (
+                <option key={themeOption} value={themeOption}>
+                  {themeLabels[themeOption]}
+                </option>
+              ))}
+            </select>
+          </label>
         </div>
       </nav>
 
@@ -197,15 +237,10 @@ function App(): JSX.Element {
                 <span>{new Date().getDate().toString().padStart(2, '0')}</span>
               </div>
               <div>
-                <strong className="text-cyber-accent">Spanner mode</strong>
-                <p className="text-sm text-cyber-muted">Switch on a warmer machinery glow for the slider and panels.</p>
+                <strong className="text-cyber-accent">Animated profile</strong>
+                <p className="text-sm text-cyber-muted">A calm, light portfolio surface with motion that stays out of the way.</p>
               </div>
-              <button
-                onClick={() => setSpannerMode((prev) => !prev)}
-                className="tube-button"
-              >
-                {spannerMode ? 'Glow on' : 'Glow off'}
-              </button>
+              <span className="theme-chip">{themeLabels[theme]} theme</span>
             </div>
 
             <div className="grid grid-cols-3 gap-4">
