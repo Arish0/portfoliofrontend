@@ -209,6 +209,26 @@ function storeAdminTokens(payload: { csrfToken?: string; authToken?: string }): 
   }
 }
 
+function showLoggedOutState(message = ''): void {
+  clearAdminTokens();
+  stopVisitorSocket();
+  portfolioData = null;
+  showElement(loginCard);
+  hideElement(adminControls);
+  if (message) {
+    showError(message);
+  }
+}
+
+function showLoggedInState(): void {
+  hideError();
+  hideElement(loginCard);
+  showElement(adminControls);
+  loadPortfolioData();
+  loadVisitors();
+  startVisitorSocket();
+}
+
 function clearAdminTokens(): void {
   csrfToken = '';
   adminAuthToken = '';
@@ -225,6 +245,14 @@ async function responseError(response: Response, fallback: string): Promise<Erro
   } catch {
     return new Error(fallback);
   }
+}
+
+function isAuthFailure(response: Response): boolean {
+  return response.status === 401 || response.status === 403;
+}
+
+function handleAdminAuthFailure(message = 'Your admin session expired. Sign in again.'): void {
+  showLoggedOutState(message);
 }
 
 type ModalVariant = 'info' | 'success' | 'danger';
@@ -844,32 +872,31 @@ function loadAdminState(): void {
   secureFetch('/api/auth')
     .then((res) => res.json())
     .then((auth: { authenticated?: boolean; csrfToken?: string; authToken?: string }) => {
-      storeAdminTokens(auth);
       if (auth.authenticated) {
-        hideElement(loginCard);
-        showElement(adminControls);
-        loadPortfolioData();
-        loadVisitors();
-        startVisitorSocket();
+        if (!auth.csrfToken) {
+          throw new Error('Admin session is missing a security token.');
+        }
+        storeAdminTokens(auth);
+        showLoggedInState();
       } else {
-        clearAdminTokens();
-        stopVisitorSocket();
-        showElement(loginCard);
-        hideElement(adminControls);
+        showLoggedOutState();
       }
     })
     .catch(() => {
-      stopVisitorSocket();
-      clearAdminTokens();
-      showElement(loginCard);
-      hideElement(adminControls);
-      showError('Unable to reach the backend. Check the Render backend URL and try again.');
+      showLoggedOutState('Unable to verify admin login. Sign in again.');
     });
 }
 
 function loadPortfolioData(): void {
-  fetch(apiUrl('/api/data'), { cache: 'no-store', credentials: 'include' })
-    .then((res) => res.json())
+  secureFetch('/api/data')
+    .then((res) => {
+      if (isAuthFailure(res)) {
+        handleAdminAuthFailure();
+        throw new Error('Admin authentication required');
+      }
+      if (!res.ok) throw new Error('Unable to load portfolio data');
+      return res.json();
+    })
     .then((data: PortfolioData) => {
       portfolioData = data;
       refreshAllFields();
@@ -882,6 +909,10 @@ function loadPortfolioData(): void {
 function loadVisitors(): void {
   secureFetch('/api/visitors')
     .then((res) => {
+      if (isAuthFailure(res)) {
+        handleAdminAuthFailure();
+        throw new Error('Admin authentication required');
+      }
       if (!res.ok) throw new Error('Unable to load visitors');
       return res.json();
     })
@@ -964,23 +995,19 @@ loginBtn.addEventListener('click', () => {
       if (!res.ok) throw new Error('Invalid credentials');
       return res.json();
     })
-    .then((payload: { csrfToken?: string; authToken?: string }) => {
+    .then((payload: { success?: boolean; csrfToken?: string; authToken?: string }) => {
+      if (payload.success !== true || !payload.csrfToken) {
+        throw new Error('Login failed. Missing confirmed admin session.');
+      }
       storeAdminTokens(payload);
-      hideElement(loginCard);
-      showElement(adminControls);
-      loadPortfolioData();
-      loadVisitors();
-      startVisitorSocket();
+      showLoggedInState();
     })
     .catch((err: Error) => showError(err.message));
 });
 
 logoutBtn.addEventListener('click', () => {
   secureFetch('/api/logout', { method: 'POST' }).then(() => {
-    clearAdminTokens();
-    stopVisitorSocket();
-    showElement(loginCard);
-    hideElement(adminControls);
+    showLoggedOutState();
   });
 });
 
@@ -1002,6 +1029,10 @@ saveBtn.addEventListener('click', async () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(stripEditorState(portfolioData))
     });
+    if (isAuthFailure(res)) {
+      handleAdminAuthFailure();
+      throw new Error('Admin authentication required');
+    }
     if (!res.ok) throw await responseError(res, 'Save failed');
     await res.json();
     loadPortfolioData();
@@ -1062,6 +1093,7 @@ addExperience.addEventListener('click', () => {
       description: 'Details about the experience.'
     });
     refreshAllFields();
+    experienceList.lastElementChild?.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 });
 

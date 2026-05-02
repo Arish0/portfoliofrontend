@@ -7,6 +7,68 @@
   display: none;
 }
 
+.admin-app {
+  --admin-bg: #070913;
+  --admin-panel: rgba(15, 18, 28, 0.94);
+  --admin-panel-strong: rgba(20, 24, 36, 0.98);
+  --admin-line: rgba(255, 255, 255, 0.1);
+  --admin-text: #f4f7fb;
+  --admin-muted: #9aa8bc;
+  --admin-accent: #22d3ee;
+  min-height: 100vh;
+  color: var(--admin-text);
+  background:
+    radial-gradient(circle at 18% 8%, rgba(34, 211, 238, 0.16), transparent 22rem),
+    radial-gradient(circle at 84% 18%, rgba(16, 185, 129, 0.12), transparent 20rem),
+    linear-gradient(180deg, #0b1020 0%, var(--admin-bg) 58%, #050712 100%);
+}
+
+.admin-app .bg-cyber-panel,
+.admin-app .admin-section,
+.admin-app aside,
+.admin-app #loginCard {
+  background: var(--admin-panel);
+  border-color: var(--admin-line);
+  box-shadow: 0 20px 56px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.admin-app .text-cyber-text {
+  color: var(--admin-text);
+}
+
+.admin-app .text-cyber-muted {
+  color: var(--admin-muted);
+}
+
+.admin-app .text-cyber-accent {
+  color: var(--admin-accent);
+}
+
+.admin-app .bg-cyber-accent\/10,
+.admin-app .bg-cyber-accent\/12 {
+  background: rgba(34, 211, 238, 0.12);
+}
+
+.admin-app input,
+.admin-app textarea,
+.admin-app select {
+  color: var(--admin-text);
+  background: rgba(255, 255, 255, 0.045);
+  border-color: var(--admin-line);
+}
+
+.admin-app input:focus,
+.admin-app textarea:focus,
+.admin-app select:focus {
+  border-color: rgba(34, 211, 238, 0.72);
+  box-shadow: 0 0 0 0.18rem rgba(34, 211, 238, 0.12);
+}
+
+.admin-app button.bg-gradient-to-r {
+  background: linear-gradient(135deg, #22d3ee, #34d399);
+  color: #061018;
+}
+
 /* Smooth transitions for hidden/visible state changes */
 #adminControls {
   transition: opacity 0.3s ease;
@@ -256,5 +318,96 @@
   to {
     opacity: 1;
     transform: scaleY(1);
+  }
+}
+
+@media (max-width: 900px) {
+  .admin-app main {
+    padding: 1rem;
+  }
+
+  .admin-app #adminControls > .grid {
+    display: block;
+  }
+
+  .admin-app aside {
+    position: static;
+    margin-bottom: 1rem;
+    overflow-x: auto;
+    border-radius: 1rem;
+  }
+
+  .admin-app #adminMenu {
+    display: flex;
+    gap: 0.5rem;
+    min-width: max-content;
+  }
+
+  .admin-app .admin-menu-link {
+    white-space: nowrap;
+  }
+
+  .admin-app .sticky.top-4 {
+    position: sticky;
+    top: 0.75rem;
+    align-items: stretch;
+    flex-direction: column;
+    border-radius: 1rem;
+  }
+
+  .admin-app .sticky.top-4 > .flex {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+
+  .admin-app .admin-section,
+  .admin-app #loginCard {
+    padding: 1.1rem;
+    border-radius: 1rem;
+  }
+
+  .admin-profile-preview {
+    width: min(100%, 12rem);
+    justify-self: center;
+  }
+}
+
+@media (max-width: 560px) {
+  .admin-app main {
+    padding: 0.75rem;
+  }
+
+  .admin-app h1 {
+    font-size: 1.65rem;
+  }
+
+  .admin-app h2 {
+    font-size: 1.25rem;
+  }
+
+  .admin-app input,
+  .admin-app textarea,
+  .admin-app select {
+    min-height: 2.75rem;
+    font-size: 1rem;
+  }
+
+  .admin-app .sticky.top-4 > .flex {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-app button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .admin-modal {
+    padding: 1rem;
+    border-radius: 1rem;
+  }
+
+  .admin-modal-header {
+    grid-template-columns: 1fr;
   }
 }

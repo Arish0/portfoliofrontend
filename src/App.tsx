@@ -67,6 +67,28 @@ const themeLabels: Record<PortfolioTheme, string> = {
   dark: 'Dark'
 };
 
+const stlcPhases = [
+  'Contract Signing',
+  'Requirement Analysis',
+  'Test Planning',
+  'Test Development',
+  'Test Execution',
+  'Defect Reporting',
+  'Retest Defects',
+  'Product Delivery'
+];
+
+const stlcPhaseColors = [
+  ['#2563eb', '#22d3ee'],
+  ['#84cc16', '#22c55e'],
+  ['#f97316', '#facc15'],
+  ['#14b8a6', '#2dd4bf'],
+  ['#0ea5e9', '#60a5fa'],
+  ['#7c3aed', '#a78bfa'],
+  ['#d97706', '#f59e0b'],
+  ['#059669', '#34d399']
+];
+
 const readStoredTheme = (): PortfolioTheme => {
   try {
     const storedTheme = localStorage.getItem(THEME_STORAGE_KEY);
@@ -130,10 +152,13 @@ function App(): JSX.Element {
   const [headerSuccess, setHeaderSuccess] = useState<string>('');
   const [isHeroFlipped, setIsHeroFlipped] = useState<boolean>(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState<boolean>(false);
+  const [isStlcShowcaseOpen, setIsStlcShowcaseOpen] = useState<boolean>(false);
   const [profileImageFailed, setProfileImageFailed] = useState<boolean>(false);
   const slideTimer = useRef<number>();
   const touchStartX = useRef<number | null>(null);
+  const lastProfilePhotoTap = useRef<number>(0);
   const headerSuccessTimer = useRef<number>();
+  const stlcShowcaseTimer = useRef<number>();
 
   useEffect((): void => {
     document.documentElement.dataset.portfolioTheme = theme;
@@ -148,6 +173,55 @@ function App(): JSX.Element {
     loadPortfolioOnce()
       .then(setData)
       .catch((err: Error) => setError(err.message));
+  }, []);
+
+  useEffect((): (() => void) => {
+    return () => window.clearTimeout(stlcShowcaseTimer.current);
+  }, []);
+
+  useEffect((): (() => void) => {
+    const isAcrobatWidget = (element: Element): boolean => {
+      if (!(element instanceof HTMLElement)) return false;
+      const signature = [
+        element.id,
+        element.className,
+        element.getAttribute('aria-label'),
+        element.getAttribute('title'),
+        element.getAttribute('src'),
+        element.getAttribute('href')
+      ]
+        .join(' ')
+        .toLowerCase();
+      if (signature.includes('adobe') || signature.includes('acrobat')) return true;
+      if (!signature.includes('pdf')) return false;
+      const style = window.getComputedStyle(element);
+      return style.position === 'fixed' || style.position === 'sticky';
+    };
+
+    const isExternalBodyOverlay = (element: Element): boolean => {
+      if (!(element instanceof HTMLElement)) return false;
+      if (element.id === 'root') return false;
+      if (element.closest('#root')) return false;
+      if (['SCRIPT', 'STYLE', 'LINK'].includes(element.tagName)) return false;
+      if (element.tagName === 'VITE-ERROR-OVERLAY') return false;
+      return element.parentElement === document.body;
+    };
+
+    const removeAcrobatWidgets = (): void => {
+      Array.from(document.body.children).forEach((element) => {
+        if (isExternalBodyOverlay(element)) element.remove();
+      });
+      document
+        .querySelectorAll('iframe, button, a, div, aside')
+        .forEach((element) => {
+          if (isAcrobatWidget(element) || isExternalBodyOverlay(element)) element.remove();
+        });
+    };
+
+    removeAcrobatWidgets();
+    const observer = new MutationObserver(removeAcrobatWidgets);
+    observer.observe(document.body, { childList: true, subtree: true });
+    return () => observer.disconnect();
   }, []);
 
   useEffect((): void => {
@@ -260,7 +334,12 @@ function App(): JSX.Element {
     const targetId = item.toLowerCase();
     triggerHeaderSuccess(targetId);
     window.setTimeout(() => {
-      document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const target = document.getElementById(targetId);
+      if (target) {
+        const navHeight = document.querySelector<HTMLElement>('.portfolio-nav')?.offsetHeight ?? 0;
+        const top = target.getBoundingClientRect().top + window.scrollY - navHeight - 16;
+        window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+      }
       window.history.replaceState(null, '', `#${targetId}`);
     }, 420);
   };
@@ -273,6 +352,17 @@ function App(): JSX.Element {
     }, 420);
   };
 
+  const handleBrandSymbolClick = (event: React.MouseEvent<HTMLDivElement>): void => {
+    event.preventDefault();
+    event.stopPropagation();
+    window.clearTimeout(stlcShowcaseTimer.current);
+    triggerHeaderSuccess('stlc');
+    setIsStlcShowcaseOpen(true);
+    stlcShowcaseTimer.current = window.setTimeout(() => {
+      setIsStlcShowcaseOpen(false);
+    }, 5000);
+  };
+
   const handleHeroCardKeyDown = (event: React.KeyboardEvent<HTMLDivElement>): void => {
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
@@ -280,10 +370,22 @@ function App(): JSX.Element {
     }
   };
 
-  const openProfileModal = (event: React.MouseEvent): void => {
+  const openProfileModal = (event: React.SyntheticEvent): void => {
     event.preventDefault();
     event.stopPropagation();
     setIsProfileModalOpen(true);
+  };
+
+  const handleProfilePhotoTouchEnd = (event: React.TouchEvent<HTMLDivElement>): void => {
+    event.preventDefault();
+    event.stopPropagation();
+    const now = window.Date.now();
+    if (now - lastProfilePhotoTap.current < 420) {
+      lastProfilePhotoTap.current = 0;
+      setIsProfileModalOpen(true);
+      return;
+    }
+    lastProfilePhotoTap.current = now;
   };
 
   const profileImageSrc = data?.hero.profileImage ? mediaUrl(data.hero.profileImage) : '';
@@ -299,9 +401,26 @@ function App(): JSX.Element {
 
   if (!data) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center p-8 text-center">
-        <div className="spinner mb-6"></div>
-        <p className="text-cyber-muted">Loading portfolio ...</p>
+      <div className="loader-screen min-h-screen flex flex-col items-center justify-center p-8 text-center">
+        <div className="loader-scan" aria-hidden="true"></div>
+        <div className="loader-particles" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <div className="spinner mb-6" role="status" aria-label="Loading portfolio">
+          <span className="spinner-sweep"></span>
+          <span className="spinner-core">Quality<br />Assurance</span>
+          <span className="spinner-orbit orbit-1"></span>
+          <span className="spinner-orbit orbit-2"></span>
+          <span className="spinner-orbit orbit-3"></span>
+          <span className="spinner-orbit orbit-4"></span>
+          <span className="spinner-orbit orbit-5"></span>
+          <span className="spinner-orbit orbit-6"></span>
+        </div>
+        <p className="loader-kicker">Running QA checks</p>
+        <p className="loader-text text-cyber-muted">
+          <span>Loading portfolio</span>
+          <i></i><i></i><i></i>
+        </p>
       </div>
     );
   }
@@ -310,20 +429,38 @@ function App(): JSX.Element {
     <div className={`portfolio-app min-h-screen theme-${theme}`}>
       <div className="ambient-ribbon" aria-hidden="true"></div>
       {/* Navigation */}
-      <nav className="portfolio-nav fixed top-0 left-0 right-0 z-50 flex items-center justify-between gap-5 px-6 md:px-8 bg-black/55 border-b border-white/8 backdrop-blur-3xl">
+      <nav className={`portfolio-nav fixed top-0 left-0 right-0 z-50 flex items-center justify-between gap-5 px-6 md:px-8 bg-black/55 border-b border-white/8 backdrop-blur-3xl ${isStlcShowcaseOpen ? 'stlc-mode-active' : ''}`}>
         <button
           className={`portfolio-brand header-action flex items-center gap-4 min-w-0 ${headerSuccess === 'brand' ? 'header-action-success' : ''}`}
           type="button"
           onClick={handleBrandClick}
           aria-label="Go to top"
         >
-          <div className="brand-tube">{getInitials(data.hero.title)}</div>
+          <div className="brand-tube" onClick={handleBrandSymbolClick} title="Show STLC phases">{getInitials(data.hero.title)}</div>
           <div className="min-w-0">
             <p className="m-0 font-syne text-lg tracking-widest uppercase truncate">{data.hero.title}</p>
             <p className="m-0 text-cyber-muted text-xs">{data.hero.role}</p>
           </div>
           <span className="header-success-mark" aria-hidden="true"></span>
         </button>
+        {isStlcShowcaseOpen && (
+          <div className="stlc-header-flow" aria-live="polite">
+            {stlcPhases.map((phase, index) => (
+              <span
+                key={phase}
+                className="stlc-phase"
+                style={{
+                  '--phase-index': index,
+                  '--phase-color': stlcPhaseColors[index][0],
+                  '--phase-color-2': stlcPhaseColors[index][1]
+                } as React.CSSProperties}
+              >
+                <i>{String(index + 1).padStart(2, '0')}</i>
+                <b>{phase}</b>
+              </span>
+            ))}
+          </div>
+        )}
         <div className="portfolio-nav-actions flex items-center gap-5 flex-wrap">
           <div className="portfolio-links hidden md:flex gap-6 flex-wrap">
             {['About', 'Skills', 'Tools', 'Experience', 'Contact'].map((item) => (
@@ -408,11 +545,12 @@ function App(): JSX.Element {
                   </div>
                 </div>
 
-                <div className="hero-book-panel hero-flip-face hero-flip-back" aria-hidden={!isHeroFlipped}>
+                <div className="profile-card-back hero-flip-face hero-flip-back" aria-hidden={!isHeroFlipped}>
                   <div
                     className="profile-photo-stage"
                     onClick={(event) => event.stopPropagation()}
                     onDoubleClick={openProfileModal}
+                    onTouchEnd={handleProfilePhotoTouchEnd}
                   >
                     {profileImageSrc && !profileImageFailed ? (
                       <img
@@ -623,16 +761,20 @@ function App(): JSX.Element {
             <span className="text-cyber-accent tracking-widest uppercase text-sm">04</span>
             <h2 className="m-0 font-syne text-4xl">Experience</h2>
           </div>
-          <div className="grid grid-cols-1 gap-4">
-            {data.experience.map((item) => (
-              <div key={item.company} className="grid grid-cols-[120px_1fr] gap-4 p-6 rounded-2xl bg-white/3 border border-white/8">
-                <div className="text-cyber-accent text-sm font-bold uppercase tracking-wider">{item.year}</div>
-                <div>
+          <div className="milestone-timeline">
+            {data.experience.map((item, index) => (
+              <article
+                key={`${item.company}-${item.year}-${index}`}
+                className="milestone-item grid grid-cols-[120px_1fr] gap-4 p-6 rounded-2xl bg-white/3 border border-white/8"
+                style={{ '--milestone-index': index } as React.CSSProperties}
+              >
+                <div className="milestone-year text-cyber-accent text-sm font-bold uppercase tracking-wider">{item.year}</div>
+                <div className="milestone-content">
                   <h3 className="m-0 mb-2">{item.role}</h3>
                   <p className="text-cyber-muted text-sm mb-2">{item.company} / {item.location}</p>
                   <p className="text-cyber-muted text-sm leading-relaxed m-0">{item.description}</p>
                 </div>
-              </div>
+              </article>
             ))}
           </div>
         </section>
@@ -684,11 +826,6 @@ function App(): JSX.Element {
           </div>
         </section>
       </main>
-
-      {/* Footer */}
-      <footer className="text-center py-8 px-4 text-cyber-muted">
-        Full stack portfolio built with React, TypeScript, Node, and Express.
-      </footer>
 
       {isProfileModalOpen && (
         <div className="profile-modal" role="dialog" aria-modal="true" aria-labelledby="profile-modal-title" onClick={() => setIsProfileModalOpen(false)}>
