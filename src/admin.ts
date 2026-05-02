@@ -183,6 +183,15 @@ function secureFetch(input: RequestInfo | URL, init: RequestInit = {}): Promise<
   return fetch(request, { ...init, headers, cache: 'no-store', credentials: 'include' });
 }
 
+async function responseError(response: Response, fallback: string): Promise<Error> {
+  try {
+    const payload = await response.json() as { message?: string; reason?: string };
+    return new Error(payload.message || payload.reason || fallback);
+  } catch {
+    return new Error(fallback);
+  }
+}
+
 type ModalVariant = 'info' | 'success' | 'danger';
 
 type AdminModalOptions = {
@@ -942,7 +951,7 @@ saveBtn.addEventListener('click', async () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(stripEditorState(portfolioData))
     });
-    if (!res.ok) throw new Error('Save failed');
+    if (!res.ok) throw await responseError(res, 'Save failed');
     await res.json();
     loadPortfolioData();
     modal.setSuccess('Portfolio saved', 'Your changes were saved successfully.');
