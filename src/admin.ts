@@ -86,6 +86,7 @@ interface PortfolioData {
     role: string;
     company: string;
     tagline: string;
+    profileImage: string;
     summary: string;
   };
   sliderItems: SliderItem[];
@@ -133,6 +134,11 @@ const heroRole = document.getElementById('heroRole') as HTMLInputElement;
 const heroCompany = document.getElementById('heroCompany') as HTMLInputElement;
 const heroTagline = document.getElementById('heroTagline') as HTMLInputElement;
 const heroSummary = document.getElementById('heroSummary') as HTMLTextAreaElement;
+const profileImageInput = document.getElementById('profileImageInput') as HTMLInputElement;
+const profileImageUpload = document.getElementById('profileImageUpload') as HTMLInputElement;
+const profileImageStatus = document.getElementById('profileImageStatus') as HTMLParagraphElement;
+const profileImagePreview = document.getElementById('profileImagePreview') as HTMLImageElement;
+const profileImageFallback = document.getElementById('profileImageFallback') as HTMLSpanElement;
 const sliderList = document.getElementById('sliderList') as HTMLDivElement;
 const addSliderItem = document.getElementById('addSliderItem') as HTMLButtonElement;
 const skillsList = document.getElementById('skillsList') as HTMLDivElement;
@@ -378,6 +384,20 @@ function createHeroForm(): void {
   heroCompany.value = portfolioData.hero.company;
   heroTagline.value = portfolioData.hero.tagline;
   heroSummary.value = portfolioData.hero.summary;
+  profileImageInput.value = portfolioData.hero.profileImage || '';
+  updateProfileImagePreview(profileImageInput.value);
+}
+
+function updateProfileImagePreview(src: string): void {
+  const imageSrc = src.trim();
+  if (!imageSrc) {
+    profileImagePreview.classList.add('hidden');
+    profileImageFallback.classList.remove('hidden');
+    return;
+  }
+  profileImagePreview.src = imageSrc.startsWith('/uploads/') ? apiUrl(imageSrc) : imageSrc;
+  profileImagePreview.classList.remove('hidden');
+  profileImageFallback.classList.add('hidden');
 }
 
 function createSliderCard(item: SliderItem, index: number): HTMLDivElement {
@@ -771,6 +791,7 @@ function syncFormValues(): void {
   portfolioData.hero.role = heroRole.value;
   portfolioData.hero.company = heroCompany.value;
   portfolioData.hero.tagline = heroTagline.value;
+  portfolioData.hero.profileImage = profileImageInput.value.trim();
   portfolioData.hero.summary = heroSummary.value;
 
   portfolioData.sliderItems.forEach((item) => {
@@ -1087,6 +1108,58 @@ addActivityBtn.addEventListener('click', async () => {
 });
 
 refreshVisitorsBtn.addEventListener('click', loadVisitors);
+
+profileImageInput.addEventListener('input', () => {
+  updateProfileImagePreview(profileImageInput.value);
+});
+
+profileImagePreview.addEventListener('error', () => {
+  profileImagePreview.classList.add('hidden');
+  profileImageFallback.classList.remove('hidden');
+});
+
+profileImageUpload.addEventListener('change', () => {
+  const file = profileImageUpload.files?.[0];
+  if (!file) return;
+  if (file.size > 10 * 1024 * 1024) {
+    profileImageUpload.value = '';
+    profileImageStatus.textContent = 'File is too large. Maximum size is 10MB.';
+    profileImageStatus.className = 'text-xs text-red-300 mt-2';
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append('profileImage', file);
+  profileImageUpload.disabled = true;
+  profileImageStatus.textContent = 'Uploading profile image...';
+  profileImageStatus.className = 'text-xs text-cyber-muted mt-2';
+
+  secureFetch('/api/upload/profile-image', {
+    method: 'POST',
+    body: formData
+  })
+    .then((res) => {
+      if (!res.ok) throw new Error('Upload failed. Please use an image file under 10MB.');
+      return res.json();
+    })
+    .then((payload: { url: string }) => {
+      profileImageInput.value = payload.url;
+      if (portfolioData) {
+        portfolioData.hero.profileImage = payload.url;
+      }
+      updateProfileImagePreview(payload.url);
+      profileImageStatus.textContent = 'Profile image uploaded. Save changes to publish it.';
+      profileImageStatus.className = 'text-xs text-cyber-accent mt-2';
+    })
+    .catch((err: Error) => {
+      profileImageStatus.textContent = err.message;
+      profileImageStatus.className = 'text-xs text-red-300 mt-2';
+    })
+    .finally(() => {
+      profileImageUpload.disabled = false;
+      profileImageUpload.value = '';
+    });
+});
 
 // Initialize admin state on page load
 initializeAdminMenu();

@@ -37,6 +37,7 @@
           <p class="px-3 pb-3 text-cyber-muted text-xs uppercase tracking-widest">Admin menu</p>
           <nav id="adminMenu" class="grid gap-2">
             <a class="admin-menu-link px-3 py-2 rounded-2xl text-cyber-muted hover:text-cyber-accent hover:bg-white/4 transition" href="#heroSection" data-section="heroSection">Hero</a>
+            <a class="admin-menu-link px-3 py-2 rounded-2xl text-cyber-muted hover:text-cyber-accent hover:bg-white/4 transition" href="#profileImageSection" data-section="profileImageSection">Profile image</a>
             <a class="admin-menu-link px-3 py-2 rounded-2xl text-cyber-muted hover:text-cyber-accent hover:bg-white/4 transition" href="#sliderSection" data-section="sliderSection">Slider items</a>
             <a class="admin-menu-link px-3 py-2 rounded-2xl text-cyber-muted hover:text-cyber-accent hover:bg-white/4 transition" href="#skillsSection" data-section="skillsSection">Skills</a>
             <a class="admin-menu-link px-3 py-2 rounded-2xl text-cyber-muted hover:text-cyber-accent hover:bg-white/4 transition" href="#toolsSection" data-section="toolsSection">Tools</a>
@@ -76,6 +77,28 @@
         <div>
           <label class="block text-cyber-muted text-sm mb-2">Description</label>
           <textarea id="heroSummary" class="w-full px-4 py-2 rounded-2xl bg-white/4 border border-white/8 text-cyber-text focus:outline-none focus:border-cyber-accent min-h-32"></textarea>
+        </div>
+      </div>
+
+      <div id="profileImageSection" class="admin-section bg-cyber-panel border border-white/8 rounded-3xl p-8 space-y-4">
+        <h2 class="text-2xl font-syne font-bold">Profile Image</h2>
+        <p class="text-cyber-muted text-sm">This image appears after clicking the hero card and inside the profile details modal.</p>
+        <div class="grid grid-cols-1 lg:grid-cols-[220px_1fr] gap-5 items-start">
+          <div class="admin-profile-preview">
+            <img id="profileImagePreview" alt="Profile preview" class="hidden" />
+            <span id="profileImageFallback">HR</span>
+          </div>
+          <div class="space-y-4">
+            <div>
+              <label class="block text-cyber-muted text-sm mb-2">Profile image URL</label>
+              <input id="profileImageInput" class="w-full px-4 py-2 rounded-2xl bg-white/4 border border-white/8 text-cyber-text focus:outline-none focus:border-cyber-accent" type="text" placeholder="/uploads/profile-..." />
+            </div>
+            <div>
+              <label class="block text-cyber-muted text-sm mb-2">Upload profile image</label>
+              <input id="profileImageUpload" class="w-full px-4 py-2 rounded-2xl bg-white/4 border border-white/8 text-cyber-text focus:outline-none focus:border-cyber-accent" type="file" accept="image/*" />
+              <p id="profileImageStatus" class="text-xs text-cyber-muted mt-2">Upload a JPG, PNG, WebP, GIF, AVIF, or HEIC image up to 10MB. Save changes after upload.</p>
+            </div>
+          </div>
         </div>
       </div>
 
