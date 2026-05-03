@@ -94,6 +94,8 @@ interface PortfolioData {
     tagline: string;
     profileImage: string;
     summary: string;
+    infoStripTitle?: string;
+    infoStripDescription?: string;
   };
   sliderItems: SliderItem[];
   skills: Skill[];
@@ -141,6 +143,8 @@ const heroRole = document.getElementById('heroRole') as HTMLInputElement;
 const heroCompany = document.getElementById('heroCompany') as HTMLInputElement;
 const heroTagline = document.getElementById('heroTagline') as HTMLInputElement;
 const heroSummary = document.getElementById('heroSummary') as HTMLTextAreaElement;
+const heroInfoStripTitle = document.getElementById('heroInfoStripTitle') as HTMLInputElement;
+const heroInfoStripDescription = document.getElementById('heroInfoStripDescription') as HTMLTextAreaElement;
 const profileImageInput = document.getElementById('profileImageInput') as HTMLInputElement;
 const profileImageUpload = document.getElementById('profileImageUpload') as HTMLInputElement;
 const profileImageStatus = document.getElementById('profileImageStatus') as HTMLParagraphElement;
@@ -422,6 +426,8 @@ function createHeroForm(): void {
   heroCompany.value = portfolioData.hero.company;
   heroTagline.value = portfolioData.hero.tagline;
   heroSummary.value = portfolioData.hero.summary;
+  heroInfoStripTitle.value = portfolioData.hero.infoStripTitle || 'Animated profile';
+  heroInfoStripDescription.value = portfolioData.hero.infoStripDescription || 'A calm, light portfolio surface with motion that stays out of the way.';
   profileImageInput.value = portfolioData.hero.profileImage || '';
   updateProfileImagePreview(profileImageInput.value);
 }
@@ -831,6 +837,8 @@ function syncFormValues(): void {
   portfolioData.hero.tagline = heroTagline.value;
   portfolioData.hero.profileImage = profileImageInput.value.trim();
   portfolioData.hero.summary = heroSummary.value;
+  portfolioData.hero.infoStripTitle = heroInfoStripTitle.value.trim();
+  portfolioData.hero.infoStripDescription = heroInfoStripDescription.value.trim();
 
   portfolioData.sliderItems.forEach((item) => {
     if (item._inputs) {

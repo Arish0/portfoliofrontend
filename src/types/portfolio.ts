@@ -6,6 +6,8 @@ export type Hero = {
   profileImage: string;
   stats: { label: string; value: string }[];
   summary: string;
+  infoStripTitle?: string;
+  infoStripDescription?: string;
 };
 
 export type SliderItem = {

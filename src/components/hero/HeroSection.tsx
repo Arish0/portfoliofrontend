@@ -98,8 +98,10 @@ export function HeroSection({
             <span>{new Date().getDate().toString().padStart(2, '0')}</span>
           </div>
           <div>
-            <strong className="text-cyber-accent">Animated profile</strong>
-            <p className="text-sm text-cyber-muted">A calm, light portfolio surface with motion that stays out of the way.</p>
+            <strong className="text-cyber-accent">{data.hero.infoStripTitle || 'Animated profile'}</strong>
+            <p className="text-sm text-cyber-muted">
+              {data.hero.infoStripDescription || 'A calm, light portfolio surface with motion that stays out of the way.'}
+            </p>
           </div>
           <span className="theme-chip">{themeLabels[theme]} theme</span>
         </div>
