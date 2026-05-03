@@ -74,6 +74,15 @@ interface Activity {
   activity: string;
 }
 
+interface HeroStat {
+  label: string;
+  value: string;
+  _inputs?: {
+    label: HTMLInputElement;
+    value: HTMLInputElement;
+  };
+}
+
 interface Visitor {
   _id?: string;
   viewedAt: string;
@@ -94,8 +103,10 @@ interface PortfolioData {
     tagline: string;
     profileImage: string;
     summary: string;
+    showcaseLabel?: string;
     infoStripTitle?: string;
     infoStripDescription?: string;
+    stats: HeroStat[];
   };
   sliderItems: SliderItem[];
   skills: Skill[];
@@ -143,6 +154,9 @@ const heroRole = document.getElementById('heroRole') as HTMLInputElement;
 const heroCompany = document.getElementById('heroCompany') as HTMLInputElement;
 const heroTagline = document.getElementById('heroTagline') as HTMLInputElement;
 const heroSummary = document.getElementById('heroSummary') as HTMLTextAreaElement;
+const heroShowcaseLabel = document.getElementById('heroShowcaseLabel') as HTMLInputElement;
+const heroStatsList = document.getElementById('heroStatsList') as HTMLDivElement;
+const addHeroStat = document.getElementById('addHeroStat') as HTMLButtonElement;
 const heroInfoStripTitle = document.getElementById('heroInfoStripTitle') as HTMLInputElement;
 const heroInfoStripDescription = document.getElementById('heroInfoStripDescription') as HTMLTextAreaElement;
 const profileImageInput = document.getElementById('profileImageInput') as HTMLInputElement;
@@ -426,10 +440,43 @@ function createHeroForm(): void {
   heroCompany.value = portfolioData.hero.company;
   heroTagline.value = portfolioData.hero.tagline;
   heroSummary.value = portfolioData.hero.summary;
+  heroShowcaseLabel.value = portfolioData.hero.showcaseLabel || 'QA Showcase';
+  renderArray(portfolioData.hero.stats, heroStatsList, createHeroStatCard);
   heroInfoStripTitle.value = portfolioData.hero.infoStripTitle || 'Animated profile';
   heroInfoStripDescription.value = portfolioData.hero.infoStripDescription || 'A calm, light portfolio surface with motion that stays out of the way.';
   profileImageInput.value = portfolioData.hero.profileImage || '';
   updateProfileImagePreview(profileImageInput.value);
+}
+
+function createHeroStatCard(item: HeroStat, index: number): HTMLDivElement {
+  const card = document.createElement('div');
+  card.className = 'bg-white/3 border border-white/8 rounded-2xl p-4 space-y-3';
+  card.innerHTML = `
+    <div class="flex items-center justify-between gap-4">
+      <h4 class="font-syne font-bold">Stat ${index + 1}</h4>
+      <button class="remove-item px-3 py-1 rounded-full border border-red-500/30 bg-red-500/10 text-red-400 text-xs hover:border-red-500/50 transition" type="button">Remove</button>
+    </div>
+  `;
+
+  const label = document.createElement('input');
+  label.className = 'w-full px-4 py-2 rounded-2xl bg-white/4 border border-white/8 text-cyber-text focus:outline-none focus:border-cyber-accent';
+  label.placeholder = 'Example: Projects';
+  label.value = item.label;
+
+  const value = document.createElement('input');
+  value.className = 'w-full px-4 py-2 rounded-2xl bg-white/4 border border-white/8 text-cyber-text focus:outline-none focus:border-cyber-accent';
+  value.placeholder = 'Example: 24+';
+  value.value = item.value;
+
+  card.appendChild(buildField('Label', label));
+  card.appendChild(buildField('Value', value));
+
+  (card.querySelector('.remove-item') as HTMLButtonElement).addEventListener('click', () => {
+    if (portfolioData) removeItem(portfolioData.hero.stats, index);
+  });
+
+  item._inputs = { label, value };
+  return card;
 }
 
 function updateProfileImagePreview(src: string): void {
@@ -837,8 +884,16 @@ function syncFormValues(): void {
   portfolioData.hero.tagline = heroTagline.value;
   portfolioData.hero.profileImage = profileImageInput.value.trim();
   portfolioData.hero.summary = heroSummary.value;
+  portfolioData.hero.showcaseLabel = heroShowcaseLabel.value.trim();
   portfolioData.hero.infoStripTitle = heroInfoStripTitle.value.trim();
   portfolioData.hero.infoStripDescription = heroInfoStripDescription.value.trim();
+
+  portfolioData.hero.stats.forEach((item) => {
+    if (item._inputs) {
+      item.label = item._inputs.label.value;
+      item.value = item._inputs.value.value;
+    }
+  });
 
   portfolioData.sliderItems.forEach((item) => {
     if (item._inputs) {
@@ -1137,6 +1192,14 @@ addExperience.addEventListener('click', () => {
     });
     refreshAllFields();
     experienceList.lastElementChild?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+});
+
+addHeroStat.addEventListener('click', () => {
+  if (portfolioData) {
+    syncFormValues();
+    portfolioData.hero.stats.push({ label: 'New stat', value: '0' });
+    refreshAllFields();
   }
 });
 

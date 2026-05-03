@@ -6,6 +6,7 @@ export type Hero = {
   profileImage: string;
   stats: { label: string; value: string }[];
   summary: string;
+  showcaseLabel?: string;
   infoStripTitle?: string;
   infoStripDescription?: string;
 };

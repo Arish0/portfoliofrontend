@@ -180,7 +180,7 @@ export function HeroSection({
           </div>
           <div className="code-window mt-8">
             <div className="code-dots"><span></span><span></span><span></span></div>
-            <p className="code-label">QA Showcase</p>
+            <p className="code-label">{data.hero.showcaseLabel || 'QA Showcase'}</p>
             <div className="showcase-copy">
               <strong>{data.hero.title}</strong>
               <p>{data.hero.summary}</p>
