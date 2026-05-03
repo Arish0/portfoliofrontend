@@ -42,6 +42,198 @@
   }
 }
 
+@layer utilities {
+  html {
+    min-width: 320px;
+    min-height: 100%;
+    overflow-x: clip;
+    background: #f8fbff;
+    scrollbar-gutter: stable;
+  }
+
+  body,
+  #root {
+    min-width: 320px;
+    min-height: 100%;
+    margin: 0;
+    overflow-x: clip;
+    background: inherit;
+  }
+
+  #root {
+    isolation: isolate;
+  }
+
+  html[data-portfolio-theme="light"],
+  html:not([data-portfolio-theme]) {
+    background:
+      linear-gradient(115deg, rgba(255, 255, 255, 0.82), rgba(238, 247, 255, 0.7)),
+      radial-gradient(circle at 18% 14%, rgba(56, 189, 248, 0.22), transparent 24rem),
+      radial-gradient(circle at 84% 22%, rgba(251, 191, 36, 0.2), transparent 21rem),
+      linear-gradient(180deg, #f8fbff 0%, #eef6fb 54%, #fff8ef 100%);
+  }
+
+  html[data-portfolio-theme="mint"] {
+    background:
+      radial-gradient(circle at 20% 18%, rgba(20, 184, 166, 0.2), transparent 24rem),
+      radial-gradient(circle at 80% 20%, rgba(132, 204, 22, 0.16), transparent 20rem),
+      linear-gradient(180deg, #f5fff9 0%, #ecfdf5 48%, #f8fafc 100%);
+  }
+
+  html[data-portfolio-theme="dark"] {
+    background:
+      radial-gradient(circle at 50% 18%, rgba(255, 157, 46, 0.18), transparent 24rem),
+      radial-gradient(circle at 78% 32%, rgba(109, 91, 255, 0.2), transparent 20rem),
+      linear-gradient(180deg, #111116 0%, #060708 52%, #151116 100%);
+  }
+
+  .portfolio-app,
+  .loader-screen {
+    width: 100%;
+    min-height: 100svh;
+    overflow-x: clip;
+    overscroll-behavior-x: none;
+    background: transparent;
+  }
+
+  .portfolio-app main {
+    position: relative;
+    z-index: 1;
+  }
+
+  .portfolio-app section,
+  .portfolio-app .hero-stage,
+  .portfolio-app .hero-shell,
+  .portfolio-app .slider-perspective {
+    max-width: 100%;
+  }
+
+  .portfolio-app :is(img, video, canvas, svg) {
+    max-width: 100%;
+  }
+
+  .portfolio-app .slide-card {
+    backface-visibility: hidden;
+    contain: paint;
+  }
+
+  .portfolio-app .slide-media :is(img, video) {
+    display: block;
+    background: color-mix(in srgb, var(--surface-strong) 70%, transparent);
+  }
+
+  @supports not (overflow: clip) {
+    html,
+    body,
+    #root,
+    .portfolio-app,
+    .loader-screen {
+      overflow-x: hidden;
+    }
+  }
+
+  @media (max-width: 780px) {
+    body {
+      -webkit-text-size-adjust: 100%;
+      overscroll-behavior-y: none;
+    }
+
+    .portfolio-app {
+      padding-bottom: max(1rem, env(safe-area-inset-bottom));
+    }
+
+    .portfolio-app main {
+      width: 100%;
+      padding-inline: clamp(0.75rem, 3.8vw, 1rem);
+    }
+
+    .portfolio-app .portfolio-nav {
+      width: 100%;
+      max-width: 100%;
+      -webkit-backdrop-filter: blur(24px);
+      backdrop-filter: blur(24px);
+    }
+
+    .portfolio-app .hero-stage,
+    .portfolio-app section.cyber-panel {
+      margin-inline: auto;
+      width: min(100%, 42rem);
+      box-sizing: border-box;
+    }
+
+    .portfolio-app .hero-stage {
+      overflow: clip;
+    }
+
+    .portfolio-app .hero-shell {
+      overflow: hidden;
+    }
+
+    .portfolio-app .slider-perspective {
+      min-height: clamp(27rem, 112vw, 34rem);
+      overflow: hidden;
+      perspective: none;
+      transform-style: flat;
+    }
+
+    .portfolio-app .slider-perspective::before {
+      inset: 18% 4% 10%;
+      filter: blur(16px);
+    }
+
+    .portfolio-app .slide-card {
+      inset: 0.55rem;
+      transform: translateX(0) translateY(0) translateZ(0) rotateY(0) scale(1) !important;
+      transition: opacity 320ms ease, filter 320ms ease;
+      will-change: opacity;
+    }
+
+    .portfolio-app .slide-card-active {
+      opacity: 1 !important;
+      pointer-events: auto;
+    }
+
+    .portfolio-app .slide-card-behind {
+      opacity: 0 !important;
+      pointer-events: none;
+    }
+
+    .portfolio-app .slide-media :is(img, video, div) {
+      height: clamp(11rem, 52vw, 14rem);
+    }
+
+    .portfolio-app .slider-dots {
+      max-width: min(100%, calc(100vw - 7rem));
+      overscroll-behavior-x: contain;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .portfolio-app main {
+      padding-inline: 0.65rem;
+    }
+
+    .portfolio-app .hero-stage,
+    .portfolio-app section.cyber-panel {
+      width: 100%;
+      padding-inline: 0.85rem;
+    }
+
+    .portfolio-app .hero-shell {
+      padding: 0.55rem;
+    }
+
+    .portfolio-app .slider-perspective {
+      min-height: clamp(26rem, 132vw, 33rem);
+    }
+
+    .portfolio-app .slide-card {
+      inset: 0.45rem;
+      padding: 0.7rem;
+    }
+  }
+}
+
 @layer components {
   @media (max-width: 780px) {
     .portfolio-app .portfolio-nav.stlc-mode-active {
