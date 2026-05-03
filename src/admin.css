@@ -1,7 +1,4 @@
-/* Admin Panel CSS - Tailwind-based styling */
-
-/* This file is minimal since Tailwind CSS is now used for the admin panel.
-   Keep it for any additional dynamic styles if needed. */
+/* Admin Panel CSS - fixed single-theme admin styling */
 
 .lazy-hidden {
   display: none;
@@ -15,6 +12,8 @@
   --admin-text: #f4f7fb;
   --admin-muted: #9aa8bc;
   --admin-accent: #22d3ee;
+  --admin-heading: #eef7ff;
+  --admin-field: rgba(255, 255, 255, 0.055);
   min-height: 100vh;
   color: var(--admin-text);
   background:
@@ -23,50 +22,121 @@
     linear-gradient(180deg, #0b1020 0%, var(--admin-bg) 58%, #050712 100%);
 }
 
+html body.admin-app,
+html[data-portfolio-theme] body.admin-app,
+html:not([data-portfolio-theme]) body.admin-app {
+  min-height: 100vh;
+  color: var(--admin-text) !important;
+  background:
+    radial-gradient(circle at 18% 8%, rgba(34, 211, 238, 0.16), transparent 22rem),
+    radial-gradient(circle at 84% 18%, rgba(16, 185, 129, 0.12), transparent 20rem),
+    linear-gradient(180deg, #0b1020 0%, var(--admin-bg) 58%, #050712 100%) !important;
+  background-attachment: fixed !important;
+}
+
+.admin-app main {
+  color: var(--admin-text);
+}
+
 .admin-app .bg-cyber-panel,
+.admin-app .bg-cyber-panel\/95,
 .admin-app .admin-section,
 .admin-app aside,
 .admin-app #loginCard {
-  background: var(--admin-panel);
+  color: var(--admin-text);
+  background: var(--admin-panel) !important;
   border-color: var(--admin-line);
   box-shadow: 0 20px 56px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
-.admin-app .text-cyber-text {
-  color: var(--admin-text);
+.admin-app .admin-section h1,
+.admin-app .admin-section h2,
+.admin-app .admin-section h3,
+.admin-app #loginCard h1,
+.admin-app #loginCard h2,
+.admin-app #loginCard h3,
+.admin-app #sliderList h3,
+.admin-app #skillsList h3,
+.admin-app #toolList h3,
+.admin-app #experienceList h3,
+.admin-app strong {
+  color: var(--admin-heading) !important;
+  text-shadow: none;
 }
 
-.admin-app .text-cyber-muted {
+.admin-app label,
+.admin-app p,
+.admin-app .admin-section span,
+.admin-app .admin-section small {
   color: var(--admin-muted);
 }
 
+.admin-app .text-cyber-text {
+  color: var(--admin-text) !important;
+}
+
+.admin-app .text-cyber-muted {
+  color: var(--admin-muted) !important;
+}
+
 .admin-app .text-cyber-accent {
-  color: var(--admin-accent);
+  color: var(--admin-accent) !important;
+}
+
+.admin-app .text-cyan-200 {
+  color: #a5f3fc !important;
 }
 
 .admin-app .bg-cyber-accent\/10,
 .admin-app .bg-cyber-accent\/12 {
-  background: rgba(34, 211, 238, 0.12);
+  background: rgba(34, 211, 238, 0.12) !important;
 }
 
 .admin-app input,
 .admin-app textarea,
 .admin-app select {
-  color: var(--admin-text);
-  background: rgba(255, 255, 255, 0.045);
-  border-color: var(--admin-line);
+  color: #ffffff !important;
+  background: var(--admin-field) !important;
+  border-color: rgba(255, 255, 255, 0.13) !important;
+  caret-color: var(--admin-accent);
+}
+
+.admin-app input::placeholder,
+.admin-app textarea::placeholder {
+  color: rgba(224, 236, 255, 0.48);
+}
+
+.admin-app select option {
+  color: #f4f7fb;
+  background: #111827;
 }
 
 .admin-app input:focus,
 .admin-app textarea:focus,
 .admin-app select:focus {
-  border-color: rgba(34, 211, 238, 0.72);
-  box-shadow: 0 0 0 0.18rem rgba(34, 211, 238, 0.12);
+  border-color: rgba(34, 211, 238, 0.72) !important;
+  box-shadow: 0 0 0 0.18rem rgba(34, 211, 238, 0.12) !important;
 }
 
 .admin-app button.bg-gradient-to-r {
-  background: linear-gradient(135deg, #22d3ee, #34d399);
-  color: #061018;
+  background: linear-gradient(135deg, #22d3ee, #34d399) !important;
+  color: #061018 !important;
+}
+
+.admin-app button.bg-transparent,
+.admin-app button.border {
+  color: var(--admin-text);
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+.admin-app .admin-menu-link {
+  color: #bdd7f7 !important;
+}
+
+.admin-app .admin-menu-link:hover,
+.admin-app .admin-menu-link.admin-menu-active {
+  color: var(--admin-accent) !important;
+  background: rgba(34, 211, 238, 0.13) !important;
 }
 
 .admin-app button:disabled {
