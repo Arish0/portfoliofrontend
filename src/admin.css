@@ -69,6 +69,38 @@
   color: #061018;
 }
 
+.admin-app button:disabled {
+  cursor: wait;
+  opacity: 0.66;
+}
+
+.admin-app .admin-section {
+  scroll-margin-top: 7rem;
+}
+
+.admin-app #sliderList,
+.admin-app #skillsList,
+.admin-app #toolList,
+.admin-app #experienceList,
+.admin-app #activityFeed,
+.admin-app #visitorFeed {
+  display: grid;
+  gap: 1rem;
+}
+
+.admin-app #sliderList > div,
+.admin-app #skillsList > div,
+.admin-app #toolList > div,
+.admin-app #experienceList > div,
+.admin-app #activityFeed > div,
+.admin-app #visitorFeed > div {
+  min-width: 0;
+}
+
+.admin-app .admin-section .flex {
+  min-width: 0;
+}
+
 /* Smooth transitions for hidden/visible state changes */
 #adminControls {
   transition: opacity 0.3s ease;
@@ -324,6 +356,8 @@
 @media (max-width: 900px) {
   .admin-app main {
     padding: 1rem;
+    max-width: 100%;
+    overflow-x: hidden;
   }
 
   .admin-app #adminControls > .grid {
@@ -335,6 +369,12 @@
     margin-bottom: 1rem;
     overflow-x: auto;
     border-radius: 1rem;
+    padding: 0.75rem;
+    scrollbar-width: none;
+  }
+
+  .admin-app aside::-webkit-scrollbar {
+    display: none;
   }
 
   .admin-app #adminMenu {
@@ -353,6 +393,7 @@
     align-items: stretch;
     flex-direction: column;
     border-radius: 1rem;
+    padding: 0.9rem;
   }
 
   .admin-app .sticky.top-4 > .flex {
@@ -367,9 +408,35 @@
     border-radius: 1rem;
   }
 
+  .admin-app .admin-section > .flex {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .admin-app #sliderList > div,
+  .admin-app #skillsList > div,
+  .admin-app #toolList > div,
+  .admin-app #experienceList > div,
+  .admin-app #activityFeed > div,
+  .admin-app #visitorFeed > div {
+    padding: 1rem;
+    border-radius: 1rem;
+  }
+
   .admin-profile-preview {
     width: min(100%, 12rem);
     justify-self: center;
+  }
+
+  .admin-modal-overlay {
+    align-items: end;
+    padding: 0.75rem;
+  }
+
+  .admin-modal {
+    width: 100%;
+    max-height: calc(100vh - 1.5rem);
+    overflow-y: auto;
   }
 }
 
@@ -391,6 +458,7 @@
   .admin-app select {
     min-height: 2.75rem;
     font-size: 1rem;
+    border-radius: 1rem;
   }
 
   .admin-app .sticky.top-4 > .flex {
@@ -402,12 +470,67 @@
     justify-content: center;
   }
 
+  .admin-app #loginCard {
+    min-height: calc(100vh - 1.5rem);
+    display: grid;
+    align-items: center;
+  }
+
+  .admin-app #adminMenu {
+    gap: 0.42rem;
+  }
+
+  .admin-app .admin-menu-link {
+    padding: 0.58rem 0.78rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+  }
+
+  .admin-app .admin-section {
+    scroll-margin-top: 8.5rem;
+  }
+
+  .admin-app .admin-section,
+  .admin-app #loginCard,
+  .admin-app .sticky.top-4 {
+    margin-inline: -0.1rem;
+  }
+
+  .admin-app .admin-section .flex.justify-between,
+  .admin-app .admin-section .flex.items-center {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .admin-app .admin-section h2 {
+    overflow-wrap: anywhere;
+  }
+
+  .admin-app #sliderList .flex.items-center.justify-between,
+  .admin-app #skillsList .flex.items-center.justify-between,
+  .admin-app #toolList .flex.items-center.justify-between,
+  .admin-app #experienceList .flex.items-center.justify-between {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .admin-profile-preview {
+    width: min(100%, 10.5rem);
+    border-radius: 1rem;
+  }
+
   .admin-modal {
     padding: 1rem;
     border-radius: 1rem;
   }
 
   .admin-modal-header {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-modal-actions {
+    display: grid;
     grid-template-columns: 1fr;
   }
 }

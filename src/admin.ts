@@ -2,6 +2,12 @@ import './styles.css';
 import './admin.css';
 import { io, type Socket } from 'socket.io-client';
 
+const ADMIN_ROUTE = '/hari-admin';
+const currentAdminPath = window.location.pathname.replace(/\/$/, '') || '/';
+if (currentAdminPath !== ADMIN_ROUTE) {
+  window.location.replace(ADMIN_ROUTE);
+}
+
 // Admin Panel Types
 interface SliderItem {
   id: string;
@@ -215,8 +221,11 @@ function showLoggedOutState(message = ''): void {
   portfolioData = null;
   showElement(loginCard);
   hideElement(adminControls);
+  adminPassword.value = '';
   if (message) {
     showError(message);
+  } else {
+    hideError();
   }
 }
 
@@ -869,8 +878,17 @@ function syncFormValues(): void {
 
 // Data loading functions
 function loadAdminState(): void {
+  hideElement(adminControls);
+  showElement(loginCard);
+  hideError();
   secureFetch('/api/auth')
-    .then((res) => res.json())
+    .then((res) => {
+      if (!res.ok) {
+        if (isAuthFailure(res)) return { authenticated: false };
+        throw new Error('Unable to verify admin login.');
+      }
+      return res.json();
+    })
     .then((auth: { authenticated?: boolean; csrfToken?: string; authToken?: string }) => {
       if (auth.authenticated) {
         if (!auth.csrfToken) {
@@ -978,9 +996,10 @@ function startVisitorSocket(): void {
   watchVisitors();
 }
 
-// Event listeners
-loginBtn.addEventListener('click', () => {
+function loginAdmin(): void {
   hideError();
+  loginBtn.disabled = true;
+  loginBtn.textContent = 'Signing in...';
   fetch(apiUrl('/api/login'), {
     method: 'POST',
     cache: 'no-store',
@@ -1002,7 +1021,23 @@ loginBtn.addEventListener('click', () => {
       storeAdminTokens(payload);
       showLoggedInState();
     })
-    .catch((err: Error) => showError(err.message));
+    .catch((err: Error) => showError(err.message))
+    .finally(() => {
+      loginBtn.disabled = false;
+      loginBtn.textContent = 'Sign in';
+    });
+}
+
+// Event listeners
+loginBtn.addEventListener('click', loginAdmin);
+
+[adminUsername, adminPassword].forEach((input) => {
+  input.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      loginAdmin();
+    }
+  });
 });
 
 logoutBtn.addEventListener('click', () => {

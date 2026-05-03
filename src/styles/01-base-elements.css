@@ -31,7 +31,7 @@
     display: none !important;
   }
 
-  body > :not(#root):not(script):not(style):not(link):not(vite-error-overlay) {
+  body:not(.admin-app) > :not(#root):not(script):not(style):not(link):not(vite-error-overlay) {
     display: none !important;
     pointer-events: none !important;
     visibility: hidden !important;
