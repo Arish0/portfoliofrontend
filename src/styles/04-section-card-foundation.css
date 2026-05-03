@@ -1,0 +1,301 @@
+﻿@layer components {
+  .portfolio-app {
+    --section-glow-a: color-mix(in srgb, var(--accent) 18%, transparent);
+    --section-glow-b: color-mix(in srgb, var(--accent-2) 14%, transparent);
+    --section-card: color-mix(in srgb, var(--surface-strong) 82%, transparent);
+    --section-card-soft: color-mix(in srgb, var(--surface) 72%, transparent);
+  }
+
+  .portfolio-app :is(#about, #skills, #tools, #experience, #contact) {
+    isolation: isolate;
+    transform-style: preserve-3d;
+    background:
+      radial-gradient(circle at var(--section-x, 16%) var(--section-y, 18%), var(--section-glow-a), transparent 18rem),
+      radial-gradient(circle at calc(100% - var(--section-x, 16%)) 84%, var(--section-glow-b), transparent 18rem),
+      linear-gradient(135deg, var(--section-card), var(--section-card-soft));
+    animation: sectionBreath 7s ease-in-out infinite;
+  }
+
+  .portfolio-app #about {
+    --section-x: 12%;
+    --section-y: 22%;
+  }
+
+  .portfolio-app #skills {
+    --section-x: 86%;
+    --section-y: 14%;
+  }
+
+  .portfolio-app #tools {
+    --section-x: 18%;
+    --section-y: 82%;
+  }
+
+  .portfolio-app #experience {
+    --section-x: 78%;
+    --section-y: 20%;
+  }
+
+  .portfolio-app #contact {
+    --section-x: 22%;
+    --section-y: 18%;
+  }
+
+  .portfolio-app :is(#about, #skills, #tools, #experience, #contact) > .flex:first-child {
+    backdrop-filter: blur(14px);
+    animation: sectionHeadingFloat 4.6s ease-in-out infinite;
+  }
+
+  .portfolio-app :is(#about, #skills, #tools, #experience, #contact) > .flex:first-child h2 {
+    background: linear-gradient(90deg, var(--text), color-mix(in srgb, var(--accent) 76%, var(--text)), var(--text));
+    background-size: 220% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: headingSheen 4.8s ease-in-out infinite;
+  }
+
+  .portfolio-app :is(#about, #skills, #tools, #experience, #contact) > .flex:first-child span {
+    animation: sectionNumberPulse 2.7s ease-in-out infinite;
+  }
+
+  .portfolio-app :is(#skills, #tools, #experience, #contact) .bg-white\/3,
+  .portfolio-app #about > p {
+    backdrop-filter: blur(18px);
+    transform: translateY(0);
+  }
+
+  .portfolio-app :is(#skills, #tools, #experience, #contact).visible .bg-white\/3,
+  .portfolio-app #about.visible > p {
+    animation:
+      cardRise 720ms cubic-bezier(0.16, 1, 0.3, 1) both,
+      cardAmbient 5.6s ease-in-out infinite 900ms;
+  }
+
+  .portfolio-app :is(#skills, #tools, #experience, #contact) .bg-white\/3:nth-child(2) {
+    animation-delay: 120ms, 1.1s;
+  }
+
+  .portfolio-app :is(#skills, #tools, #experience, #contact) .bg-white\/3:nth-child(3) {
+    animation-delay: 240ms, 1.3s;
+  }
+
+  .portfolio-app :is(#skills, #tools, #experience, #contact) .bg-white\/3:hover {
+    transform: translateY(-0.4rem) scale(1.01);
+  }
+
+  .portfolio-app #skills .bg-white\/3 h3,
+  .portfolio-app #tools .bg-white\/3 h3,
+  .portfolio-app #experience .milestone-content h3,
+  .portfolio-app #contact .bg-white\/3 h3 {
+    color: var(--text);
+    text-shadow: 0 0.7rem 1.6rem color-mix(in srgb, var(--accent) 10%, transparent);
+  }
+
+  .portfolio-app #skills .h-3 {
+    height: 0.72rem;
+    padding: 0.12rem;
+    background:
+      linear-gradient(135deg, color-mix(in srgb, var(--accent) 12%, white), color-mix(in srgb, var(--accent-2) 10%, white));
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 14%, transparent);
+  }
+
+  .portfolio-app #skills .h-full.rounded-full {
+    box-shadow:
+      0 0 1rem color-mix(in srgb, var(--accent) 30%, transparent),
+      inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    animation: skillBarGlow 2.6s ease-in-out infinite;
+  }
+
+  .portfolio-app #tools .inline-flex {
+    overflow: hidden;
+  }
+
+  .portfolio-app #tools .inline-flex::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.42), transparent);
+    transform: translateX(-120%);
+    transition: transform 420ms ease;
+  }
+
+  .portfolio-app #tools .inline-flex:hover::after {
+    transform: translateX(120%);
+  }
+
+  .portfolio-app .milestone-item {
+    background:
+      linear-gradient(135deg, var(--section-card), var(--section-card-soft)),
+      radial-gradient(circle at 18% 20%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 12rem);
+  }
+
+  .portfolio-app .milestone-item:hover .milestone-year {
+    transform: translateY(-2px);
+    box-shadow: 0 1rem 1.8rem color-mix(in srgb, var(--accent) 18%, transparent);
+  }
+
+  .portfolio-app .milestone-year {
+    transition: transform 180ms ease, box-shadow 180ms ease;
+  }
+
+  .portfolio-app #contact .lg\:col-span-2 {
+    background:
+      linear-gradient(135deg, var(--section-card), color-mix(in srgb, var(--surface-strong) 60%, transparent)),
+      radial-gradient(circle at 20% 20%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 14rem);
+  }
+
+  .portfolio-app #contact .lg\:col-span-2 a {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .portfolio-app #contact .lg\:col-span-2 a::after {
+    content: "";
+    position: absolute;
+    left: 0.6rem;
+    right: 0.6rem;
+    bottom: 0.18rem;
+    height: 1px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 220ms ease;
+  }
+
+  .portfolio-app #contact .lg\:col-span-2 a:hover::after {
+    transform: scaleX(1);
+  }
+
+  .portfolio-app.theme-dark :is(#about, #skills, #tools, #experience, #contact) {
+    --section-card: rgba(21, 20, 27, 0.92);
+    --section-card-soft: rgba(11, 12, 17, 0.82);
+    box-shadow:
+      0 1.5rem 4rem rgba(0, 0, 0, 0.38),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+
+  .portfolio-app.theme-mint :is(#about, #skills, #tools, #experience, #contact) {
+    --section-glow-a: color-mix(in srgb, #14b8a6 18%, transparent);
+    --section-glow-b: color-mix(in srgb, #22c55e 14%, transparent);
+  }
+
+  @keyframes sectionBreath {
+    0%, 100% {
+      background-position: 0 0, 0 0, 0 0;
+    }
+    50% {
+      background-position: 1.2rem -0.6rem, -1rem 0.8rem, 0 0;
+    }
+  }
+
+  @keyframes sectionHeadingFloat {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-0.18rem);
+    }
+  }
+
+  @keyframes headingSheen {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  @keyframes sectionNumberPulse {
+    0%, 100% {
+      transform: scale(1);
+      filter: brightness(1);
+    }
+    50% {
+      transform: scale(1.08);
+      filter: brightness(1.18);
+    }
+  }
+
+  @keyframes cardAmbient {
+    0%, 100% {
+      box-shadow:
+        0 1rem 2rem color-mix(in srgb, var(--text) 8%, transparent),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    }
+    50% {
+      box-shadow:
+        0 1.2rem 2.4rem color-mix(in srgb, var(--accent) 12%, transparent),
+        inset 0 1px 0 rgba(255, 255, 255, 0.36);
+    }
+  }
+
+  @keyframes skillBarGlow {
+    50% {
+      filter: brightness(1.12) saturate(1.12);
+    }
+  }
+
+  @media (max-width: 780px) {
+    .portfolio-app :is(#about, #skills, #tools, #experience, #contact) {
+      animation-duration: 9s;
+    }
+
+    .portfolio-app :is(#about, #skills, #tools, #experience, #contact) > .flex:first-child {
+      display: flex;
+      gap: 0.75rem;
+      padding: 0.35rem 0.55rem 0.35rem 0.35rem;
+    }
+
+    .portfolio-app :is(#skills, #tools, #experience, #contact) .bg-white\/3:hover {
+      transform: translateY(-0.18rem);
+    }
+
+    .portfolio-app #skills .h-3 {
+      height: 0.62rem;
+    }
+
+    .portfolio-app .milestone-item {
+      animation-name: milestoneInMobile;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .portfolio-app :is(#about, #skills, #tools, #experience, #contact) h2 {
+      font-size: 1.42rem;
+    }
+
+    .portfolio-app :is(#about, #skills, #tools, #experience, #contact) > .flex:first-child span {
+      width: 1.75rem;
+      height: 1.75rem;
+      font-size: 0.66rem;
+    }
+
+    .portfolio-app #tools .inline-flex {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  @keyframes milestoneInMobile {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .portfolio-app :is(#about, #skills, #tools, #experience, #contact),
+    .portfolio-app :is(#about, #skills, #tools, #experience, #contact)::before,
+    .portfolio-app :is(#about, #skills, #tools, #experience, #contact)::after,
+    .portfolio-app :is(#about, #skills, #tools, #experience, #contact) *,
+    .portfolio-app :is(#about, #skills, #tools, #experience, #contact) *::before,
+    .portfolio-app :is(#about, #skills, #tools, #experience, #contact) *::after {
+      animation-duration: 1ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 1ms !important;
+    }
+  }
+}
+

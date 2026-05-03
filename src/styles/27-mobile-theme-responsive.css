@@ -1,0 +1,79 @@
+﻿@layer components {
+  @media (max-width: 780px) {
+    .theme-pull-switch {
+      width: 100%;
+      justify-content: space-between;
+    }
+
+    .theme-rope {
+      left: 1.6rem;
+      height: 4.8rem;
+    }
+
+    .theme-rope-svg {
+      height: 3.8rem;
+    }
+
+    .portfolio-nav {
+      align-items: flex-start;
+      gap: 1rem;
+      flex-direction: column;
+      padding: 1rem;
+      position: sticky;
+    }
+
+    .portfolio-brand,
+    .portfolio-nav-actions {
+      width: 100%;
+      max-width: none;
+    }
+
+    .portfolio-nav-actions {
+      justify-content: stretch;
+    }
+
+    .portfolio-app main {
+      padding-top: 1.5rem;
+    }
+
+    .portfolio-app .clock-console {
+      grid-template-columns: 1fr;
+    }
+
+    .theme-chip {
+      justify-content: flex-start;
+    }
+
+    .portfolio-app .slider-perspective {
+      touch-action: pan-y;
+    }
+
+    .portfolio-app .slide-card {
+      inset: 0.65rem 0.75rem;
+    }
+
+    .bug-scan-perch {
+      top: -0.55rem;
+      right: -1.9rem;
+      transform: scale(0.58);
+      transform-origin: top right;
+    }
+
+    .slider-arrow {
+      top: auto;
+      bottom: 0.9rem;
+      width: 2.45rem;
+      height: 2.45rem;
+      font-size: 1.65rem;
+    }
+
+    .slider-arrow-prev {
+      left: 1rem;
+    }
+
+    .slider-arrow-next {
+      right: 1rem;
+    }
+  }
+}
+

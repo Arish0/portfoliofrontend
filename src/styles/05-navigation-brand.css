@@ -1,0 +1,177 @@
+﻿@layer components {
+  .portfolio-brand {
+    padding: 0.28rem 0.7rem 0.28rem 0.28rem;
+    border-radius: 999px;
+    overflow: hidden;
+    transition: transform 180ms ease, background 180ms ease, box-shadow 180ms ease;
+  }
+
+  .portfolio-brand::before,
+  .portfolio-brand::after {
+    content: "";
+    position: absolute;
+    pointer-events: none;
+  }
+
+  .portfolio-brand::before {
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background:
+      linear-gradient(105deg, transparent 0 28%, color-mix(in srgb, var(--accent) 20%, transparent) 44%, transparent 58%),
+      radial-gradient(circle at 13% 50%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 5rem);
+    transform: translateX(-120%);
+    animation: brandCurrentSweep 3.4s ease-in-out infinite;
+  }
+
+  .portfolio-brand::after {
+    left: 3.5rem;
+    right: 0.85rem;
+    bottom: 0.24rem;
+    height: 0.12rem;
+    border-radius: 999px;
+    background: linear-gradient(90deg, transparent, var(--accent), var(--accent-2), transparent);
+    opacity: 0.62;
+    transform: scaleX(0.18);
+    transform-origin: left;
+    animation: brandSignalLine 2.7s ease-in-out infinite;
+  }
+
+  .portfolio-brand:hover {
+    transform: translateY(-1px);
+    background: color-mix(in srgb, var(--accent) 7%, transparent);
+    box-shadow: 0 0.9rem 1.8rem color-mix(in srgb, var(--accent) 13%, transparent);
+  }
+
+  .portfolio-brand .brand-tube {
+    box-shadow:
+      0 0 0 0.34rem color-mix(in srgb, var(--accent) 13%, transparent),
+      0 0 0 0.72rem color-mix(in srgb, var(--accent-2) 7%, transparent),
+      0 1rem 1.9rem color-mix(in srgb, var(--accent) 24%, transparent);
+  }
+
+  .portfolio-brand .brand-tube::before {
+    content: "";
+    position: absolute;
+    inset: -0.58rem;
+    z-index: -1;
+    border-radius: inherit;
+    border: 0.12rem solid transparent;
+    border-top-color: color-mix(in srgb, var(--accent-2) 74%, white);
+    border-right-color: color-mix(in srgb, var(--accent) 54%, transparent);
+    filter: drop-shadow(0 0 0.65rem color-mix(in srgb, var(--accent) 40%, transparent));
+    animation: brandOrbit 2.2s linear infinite;
+  }
+
+  .portfolio-brand p:first-of-type {
+    background: linear-gradient(90deg, var(--text), color-mix(in srgb, var(--accent) 78%, var(--text)), var(--text));
+    background-size: 230% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: brandTextCurrent 3.2s ease-in-out infinite;
+  }
+
+  .portfolio-brand p:last-of-type {
+    position: relative;
+    width: fit-content;
+    color: color-mix(in srgb, var(--accent) 86%, var(--text));
+    font-weight: 900;
+  }
+
+  .portfolio-brand p:last-of-type::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -0.18rem;
+    height: 1px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2), transparent);
+    transform: scaleX(0.35);
+    transform-origin: left;
+    animation: brandRoleCurrent 2.4s ease-in-out infinite;
+  }
+
+  @keyframes brandCurrentSweep {
+    0%, 100% {
+      transform: translateX(-120%);
+      opacity: 0;
+    }
+    40%, 54% {
+      opacity: 0.9;
+    }
+    78% {
+      transform: translateX(110%);
+      opacity: 0;
+    }
+  }
+
+  @keyframes brandSignalLine {
+    0%, 100% {
+      transform: scaleX(0.18);
+      opacity: 0.3;
+    }
+    50% {
+      transform: scaleX(1);
+      opacity: 0.86;
+    }
+  }
+
+  @keyframes brandOrbit {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes brandTextCurrent {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  @keyframes brandRoleCurrent {
+    0%, 100% {
+      transform: scaleX(0.35);
+      opacity: 0.38;
+    }
+    50% {
+      transform: scaleX(1);
+      opacity: 0.9;
+    }
+  }
+
+  @media (max-width: 780px) {
+    .portfolio-brand {
+      padding: 0.18rem 0.4rem 0.18rem 0.16rem;
+    }
+
+    .portfolio-brand::after {
+      left: 2.7rem;
+      right: 0.45rem;
+      bottom: 0.12rem;
+    }
+
+    .portfolio-brand .brand-tube::before {
+      inset: -0.42rem;
+      border-width: 0.09rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .portfolio-brand,
+    .portfolio-brand::before,
+    .portfolio-brand::after,
+    .portfolio-brand *,
+    .portfolio-brand *::before,
+    .portfolio-brand *::after {
+      animation-duration: 1ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 1ms !important;
+    }
+  }
+}
+

@@ -1,0 +1,26 @@
+﻿@layer components {
+  .cyber-panel {
+    @apply bg-cyber-panel border border-white/8 rounded-3xl px-8 py-6 shadow-xl backdrop-blur-xl;
+    box-shadow: 0 22px 70px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  .cyber-button-primary {
+    @apply px-6 py-2 rounded-full bg-gradient-to-r from-cyber-accent to-cyan-400 text-cyber-dark font-bold transition hover:shadow-lg;
+  }
+
+  .cyber-button-secondary {
+    @apply px-6 py-2 rounded-full border border-white/12 bg-transparent text-cyber-text transition hover:border-cyber-accent;
+  }
+
+  .cyber-card {
+    @apply bg-white/3 border border-white/8 rounded-2xl p-5 backdrop-blur-sm;
+  }
+
+  .reveal {
+    @apply opacity-0 translate-y-6 transition-all duration-700 ease-out;
+  }
+
+  .reveal.visible {
+    @apply opacity-100 translate-y-0;
+  }
+}

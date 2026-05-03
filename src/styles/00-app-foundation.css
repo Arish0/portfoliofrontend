@@ -1,0 +1,17 @@
+﻿@layer base {
+  html,
+  body,
+  #root {
+    @apply min-h-full;
+  }
+
+  html,
+  body {
+    @apply overflow-x-hidden;
+  }
+
+  body {
+    @apply m-0;
+  }
+}
+

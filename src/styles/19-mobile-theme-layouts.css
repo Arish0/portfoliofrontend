@@ -1,0 +1,383 @@
+﻿@layer components {
+  @media (max-width: 780px) {
+    .portfolio-nav {
+      position: sticky;
+      top: 0;
+      min-height: 3.85rem;
+      max-height: none;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.7rem;
+      padding: 0.48rem 0.75rem;
+      overflow: visible;
+    }
+
+    .portfolio-nav::before {
+      animation: none;
+      opacity: 0.28;
+    }
+
+    .portfolio-brand {
+      flex: 1 1 auto;
+      width: auto;
+      min-width: 0;
+      max-width: none;
+      gap: 0.7rem;
+    }
+
+    .portfolio-brand .brand-tube {
+      width: 2.35rem;
+      height: 2.35rem;
+      flex-basis: 2.35rem;
+      font-size: 0.82rem;
+    }
+
+    .portfolio-brand p:first-of-type {
+      max-width: 9.5rem;
+      font-size: 0.82rem;
+      line-height: 1.05;
+      letter-spacing: 0.08em;
+    }
+
+    .portfolio-brand p:last-of-type {
+      display: none;
+    }
+
+    .portfolio-nav-actions {
+      flex: 0 0 auto;
+      width: auto;
+      justify-content: flex-end;
+      gap: 0;
+    }
+
+    .theme-pull-switch {
+      width: auto;
+      min-width: 5.65rem;
+      min-height: 2.65rem;
+      grid-template-columns: auto auto;
+      column-gap: 0.32rem;
+      justify-content: center;
+      padding: 0.22rem 0.58rem 0.22rem 0.4rem;
+      box-shadow:
+        0 0.6rem 1.25rem rgba(15, 23, 42, 0.16),
+        inset 0 1px 0 rgba(255, 255, 255, 0.82);
+    }
+
+    .theme-bulb-button {
+      width: 1.65rem;
+      height: 2.1rem;
+    }
+
+    .theme-bulb-button::before {
+      top: -0.7rem;
+      height: 0.9rem;
+      width: 0.12rem;
+    }
+
+    .theme-bulb {
+      width: 1.55rem;
+      height: 2.25rem;
+    }
+
+    .theme-pull-label {
+      gap: 0;
+    }
+
+    .theme-pull-label span {
+      font-size: 0.48rem;
+      letter-spacing: 0.06em;
+    }
+
+    .theme-pull-label strong {
+      font-size: 0.72rem;
+      line-height: 1;
+    }
+
+    .portfolio-app main {
+      padding-top: 0.85rem;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+
+    .portfolio-app .hero-stage {
+      gap: 1.5rem;
+      width: 100%;
+      max-width: none;
+      padding: 1rem;
+      border-radius: 1.15rem;
+    }
+
+    .portfolio-app section.cyber-panel {
+      width: 100%;
+      max-width: none;
+      padding: 1.25rem;
+      border-radius: 1.15rem;
+    }
+
+    .portfolio-app .hero-title {
+      font-size: clamp(2.3rem, 12vw, 4rem);
+      line-height: 0.98;
+      overflow-wrap: anywhere;
+    }
+
+    .portfolio-app .hero-flip-card {
+      min-height: 34rem;
+    }
+
+    .portfolio-app .hero-flip-back {
+      grid-template-columns: 1fr;
+      gap: 0.85rem;
+      align-content: start;
+    }
+
+    .portfolio-app .profile-photo-stage {
+      width: min(100%, 13.5rem);
+      min-height: 16rem;
+      justify-self: center;
+      transform: none;
+    }
+
+    .portfolio-app .profile-back-copy {
+      text-align: center;
+      justify-items: center;
+    }
+
+    .portfolio-app .grid.grid-cols-3,
+    .portfolio-app .profile-modal-stats,
+    .portfolio-app .profile-modal-skills {
+      grid-template-columns: 1fr;
+    }
+
+    .portfolio-app .hero-shell {
+      padding: 0.75rem;
+      border-radius: 1rem;
+    }
+
+    .portfolio-app .slider-perspective {
+      min-height: 34rem;
+      border-radius: 0.85rem;
+    }
+
+    .portfolio-app .slide-card {
+      inset: 0.55rem;
+      grid-template-columns: 1fr;
+      align-content: start;
+      gap: 0.9rem;
+      padding: 0.8rem;
+    }
+
+    .portfolio-app .slide-card-behind {
+      opacity: 0 !important;
+      pointer-events: none;
+    }
+
+    .portfolio-app .slide-copy {
+      gap: 0.6rem;
+      transform: none;
+    }
+
+    .portfolio-app .slide-copy h3 {
+      font-size: 1.45rem;
+      line-height: 1.15;
+    }
+
+    .portfolio-app .slide-copy p {
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+
+    .portfolio-app .slide-media :is(img, video, div) {
+      height: 14rem;
+    }
+
+    .portfolio-app .code-window {
+      margin-top: 1rem;
+      padding: 1rem;
+    }
+
+    .portfolio-app .code-label {
+      position: static;
+      width: fit-content;
+      margin-bottom: 0.75rem;
+    }
+
+    .portfolio-app #experience .grid.grid-cols-\[120px_1fr\] {
+      grid-template-columns: 1fr;
+    }
+
+    .portfolio-app #contact a {
+      flex-direction: column;
+      gap: 0.2rem;
+      overflow-wrap: anywhere;
+    }
+
+    .portfolio-app .profile-modal {
+      padding: 0.75rem;
+    }
+
+    .portfolio-app .profile-modal-panel {
+      grid-template-columns: 1fr;
+      width: min(42rem, 100%);
+      max-height: calc(100vh - 1.5rem);
+      border-radius: 1.25rem;
+    }
+
+    .portfolio-app .profile-modal-media {
+      position: relative;
+      min-height: 20rem;
+      transform: none;
+    }
+
+    .portfolio-app .profile-modal-media img,
+    .portfolio-app .profile-modal-fallback {
+      min-height: 18.8rem;
+    }
+
+    .portfolio-app .hero-stage {
+      gap: 1rem;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .portfolio-app .hero-flip-card {
+      min-height: 26rem;
+    }
+
+    .portfolio-app .hero-book-panel {
+      justify-content: center;
+      gap: 0.72rem;
+      padding: 1rem;
+      border-radius: 1.15rem;
+    }
+
+    .portfolio-app .hero-book-panel > :first-child {
+      width: fit-content;
+      max-width: 100%;
+      padding: 0.42rem 0.62rem;
+      font-size: 0.6rem;
+      line-height: 1.18;
+      letter-spacing: 0.035em;
+      border-radius: 0.85rem;
+    }
+
+    .portfolio-app .hero-book-panel .hero-title {
+      font-size: clamp(2.15rem, 12vw, 2.95rem);
+      line-height: 1;
+    }
+
+    .portfolio-app .hero-book-panel p {
+      max-width: none;
+      font-size: 0.78rem;
+      line-height: 1.45;
+    }
+
+    .portfolio-app .hero-book-panel > :last-child {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.45rem;
+      align-items: stretch;
+    }
+
+    .portfolio-app .hero-book-panel > :last-child span:not(.text-white\/35) {
+      min-height: 2rem;
+      padding: 0.42rem 0.52rem 0.42rem 1.55rem;
+      border-radius: 0.78rem;
+      font-size: 0.56rem;
+      line-height: 1.12;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .portfolio-nav {
+      min-height: 3.45rem;
+      gap: 0.5rem;
+      padding: 0.42rem 0.6rem;
+    }
+
+    .portfolio-brand {
+      gap: 0.55rem;
+    }
+
+    .portfolio-brand .brand-tube {
+      width: 2.05rem;
+      height: 2.05rem;
+      flex-basis: 2.05rem;
+      font-size: 0.74rem;
+    }
+
+    .portfolio-brand p:first-of-type {
+      max-width: 8.2rem;
+      font-size: 0.76rem;
+    }
+
+    .theme-pull-switch {
+      min-width: 4.95rem;
+      min-height: 2.35rem;
+      padding: 0.18rem 0.45rem 0.18rem 0.34rem;
+    }
+
+    .theme-bulb-button {
+      width: 1.42rem;
+      height: 1.9rem;
+    }
+
+    .theme-bulb {
+      width: 1.34rem;
+      height: 1.95rem;
+    }
+
+    .theme-pull-label span {
+      display: none;
+    }
+
+    .theme-pull-label strong {
+      font-size: 0.68rem;
+    }
+
+    .portfolio-app .hero-flip-card {
+      min-height: 24rem;
+    }
+
+    .portfolio-app .hero-book-panel {
+      gap: 0.62rem;
+      padding: 0.88rem;
+    }
+
+    .portfolio-app .hero-book-panel .hero-title {
+      font-size: clamp(2rem, 11.2vw, 2.65rem);
+    }
+
+    .portfolio-app .hero-book-panel p {
+      font-size: 0.72rem;
+      line-height: 1.42;
+    }
+
+    .portfolio-app .hero-book-panel > :last-child {
+      align-items: flex-start;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.45rem;
+    }
+
+    .portfolio-app .hero-book-panel > :last-child .text-white\/35 {
+      display: none;
+    }
+
+    .portfolio-app .slider-perspective {
+      min-height: 36rem;
+    }
+
+    .portfolio-app .slide-media :is(img, video, div) {
+      height: 12rem;
+    }
+
+    .slider-arrow {
+      width: 2.2rem;
+      height: 2.2rem;
+    }
+  }
+}
+

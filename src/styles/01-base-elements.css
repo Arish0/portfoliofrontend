@@ -1,0 +1,40 @@
+﻿@layer base {
+  body {
+    @apply font-dm-mono text-cyber-text;
+    background:
+      radial-gradient(circle at 50% 18%, rgba(255, 157, 46, 0.18), transparent 24rem),
+      radial-gradient(circle at 78% 32%, rgba(109, 91, 255, 0.2), transparent 20rem),
+      linear-gradient(180deg, #111116 0%, #060708 52%, #151116 100%);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  a {
+    @apply text-inherit;
+  }
+
+  button {
+    @apply cursor-pointer;
+    font: inherit;
+  }
+
+  [id*="adobe" i],
+  [class*="adobe" i],
+  [aria-label*="adobe" i],
+  [title*="adobe" i],
+  [id*="acrobat" i],
+  [class*="acrobat" i],
+  [aria-label*="acrobat" i],
+  [title*="acrobat" i] {
+    display: none !important;
+  }
+
+  body > :not(#root):not(script):not(style):not(link):not(vite-error-overlay) {
+    display: none !important;
+    pointer-events: none !important;
+    visibility: hidden !important;
+  }
+}
+

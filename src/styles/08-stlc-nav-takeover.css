@@ -1,0 +1,146 @@
+﻿@layer components {
+  .portfolio-nav.stlc-mode-active {
+    min-height: 5.6rem;
+    justify-content: center;
+    overflow: visible;
+    background:
+      radial-gradient(circle at 10% 50%, color-mix(in srgb, #2563eb 22%, transparent), transparent 16rem),
+      radial-gradient(circle at 90% 50%, color-mix(in srgb, #f97316 18%, transparent), transparent 16rem),
+      linear-gradient(110deg, color-mix(in srgb, var(--surface-strong) 90%, transparent), color-mix(in srgb, var(--surface) 78%, transparent));
+    animation: stlcHeaderTakeover 5s ease both;
+  }
+
+  .portfolio-nav.stlc-mode-active .portfolio-brand,
+  .portfolio-nav.stlc-mode-active .portfolio-nav-actions {
+    opacity: 0;
+    transform: translateY(-0.65rem) scale(0.96);
+    pointer-events: none;
+    animation: stlcHeaderItemsHide 320ms ease both;
+  }
+
+  .portfolio-nav.stlc-mode-active .stlc-header-flow {
+    inset: 0.55rem 1.2rem;
+    z-index: 30;
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    border-radius: 1.25rem;
+    pointer-events: none;
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.72), rgba(239, 246, 255, 0.48)),
+      radial-gradient(circle at 12% 50%, rgba(37, 99, 235, 0.22), transparent 14rem),
+      radial-gradient(circle at 88% 50%, rgba(249, 115, 22, 0.18), transparent 14rem);
+  }
+
+  .portfolio-nav.stlc-mode-active .stlc-header-flow::before {
+    top: 50%;
+    height: 0.18rem;
+    background:
+      linear-gradient(90deg, #2563eb, #84cc16, #f97316, #14b8a6, #0ea5e9, #7c3aed, #d97706, #059669);
+    box-shadow:
+      0 0 1.2rem rgba(34, 211, 238, 0.62),
+      0 0 2.4rem rgba(249, 115, 22, 0.24);
+  }
+
+  .portfolio-nav.stlc-mode-active .stlc-header-flow::after {
+    background:
+      linear-gradient(105deg, transparent 0 32%, rgba(255, 255, 255, 0.48) 48%, transparent 64%),
+      repeating-linear-gradient(90deg, transparent 0 3.4rem, rgba(255, 255, 255, 0.13) 3.4rem 3.46rem);
+  }
+
+  .portfolio-nav.stlc-mode-active .stlc-phase {
+    min-height: 3.7rem;
+    box-shadow:
+      0 1rem 2.2rem color-mix(in srgb, var(--phase-color) 24%, transparent),
+      inset 0 1px 0 rgba(255, 255, 255, 0.38);
+  }
+
+  .portfolio-nav.stlc-mode-active .stlc-phase b {
+    letter-spacing: 0.02em;
+  }
+
+  .portfolio-nav.stlc-mode-active .stlc-phase i {
+    animation: stlcNumberSpin 520ms cubic-bezier(0.16, 1, 0.3, 1) calc(var(--phase-delay) + 180ms) both;
+  }
+
+  @keyframes stlcHeaderTakeover {
+    0%, 100% {
+      box-shadow:
+        0 18px 46px color-mix(in srgb, var(--text) 13%, transparent),
+        inset 0 1px 0 rgba(255, 255, 255, 0.36);
+    }
+    35%, 76% {
+      box-shadow:
+        0 1.2rem 3rem rgba(37, 99, 235, 0.18),
+        0 0 0 1px rgba(34, 211, 238, 0.22),
+        inset 0 1px 0 rgba(255, 255, 255, 0.52);
+    }
+  }
+
+  @keyframes stlcHeaderItemsHide {
+    to {
+      opacity: 0;
+      transform: translateY(-0.65rem) scale(0.96);
+      filter: blur(6px);
+    }
+  }
+
+  @keyframes stlcNumberSpin {
+    from {
+      transform: rotate(-180deg) scale(0.68);
+      opacity: 0;
+    }
+    to {
+      transform: rotate(0deg) scale(1);
+      opacity: 1;
+    }
+  }
+
+  @media (max-width: 1180px) {
+    .portfolio-nav.stlc-mode-active {
+      min-height: 8.4rem;
+    }
+
+    .portfolio-nav.stlc-mode-active .stlc-header-flow {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      inset: 0.55rem 0.85rem;
+    }
+
+    .portfolio-nav.stlc-mode-active .stlc-phase {
+      min-height: 3rem;
+    }
+  }
+
+  @media (max-width: 780px) {
+    .portfolio-nav.stlc-mode-active {
+      min-height: 15rem;
+      align-items: stretch;
+    }
+
+    .portfolio-nav.stlc-mode-active .stlc-header-flow {
+      inset: 0.55rem;
+      max-height: none;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      align-content: center;
+    }
+
+    .portfolio-nav.stlc-mode-active .stlc-phase {
+      min-height: 2.75rem;
+      grid-template-columns: auto 1fr;
+      justify-items: start;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .portfolio-nav.stlc-mode-active {
+      min-height: 24rem;
+    }
+
+    .portfolio-nav.stlc-mode-active .stlc-header-flow {
+      grid-template-columns: 1fr;
+    }
+
+    .portfolio-nav.stlc-mode-active .stlc-phase {
+      min-height: 2.35rem;
+    }
+  }
+}
+

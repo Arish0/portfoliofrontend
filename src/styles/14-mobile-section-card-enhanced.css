@@ -1,0 +1,93 @@
+﻿@layer components {
+  @media (max-width: 780px) {
+    .portfolio-app .portfolio-nav {
+      position: sticky;
+      top: 0;
+      z-index: 60;
+    }
+
+    .portfolio-app main {
+      padding-top: 1rem;
+    }
+
+    .portfolio-app section[id] {
+      scroll-margin-top: 5.75rem;
+    }
+
+    .portfolio-app .hero-stage {
+      gap: 1rem;
+      padding: 0.75rem;
+      margin-top: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .portfolio-app .hero-flip-card {
+      min-height: 26rem;
+    }
+
+    .portfolio-app .hero-book-panel {
+      justify-content: center;
+      gap: 0.72rem;
+      padding: 1rem;
+      border-radius: 1.15rem;
+    }
+
+    .portfolio-app .hero-book-panel > :first-child {
+      width: fit-content;
+      max-width: 100%;
+      padding: 0.42rem 0.62rem;
+      font-size: 0.6rem;
+      line-height: 1.18;
+      letter-spacing: 0.035em;
+      border-radius: 0.85rem;
+    }
+
+    .portfolio-app .hero-book-panel .hero-title {
+      font-size: clamp(2.15rem, 12vw, 2.95rem);
+      line-height: 1;
+    }
+
+    .portfolio-app .hero-book-panel p {
+      max-width: none;
+      font-size: 0.78rem;
+      line-height: 1.45;
+    }
+
+    .portfolio-app .hero-book-panel > :last-child {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.45rem;
+      align-items: stretch;
+    }
+
+    .portfolio-app .hero-book-panel > :last-child span:not(.text-white\/35) {
+      min-height: 2rem;
+      padding: 0.42rem 0.52rem 0.42rem 1.55rem;
+      border-radius: 0.78rem;
+      font-size: 0.56rem;
+      line-height: 1.12;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .portfolio-app .hero-flip-card {
+      min-height: 24rem;
+    }
+
+    .portfolio-app .hero-book-panel {
+      gap: 0.62rem;
+      padding: 0.88rem;
+    }
+
+    .portfolio-app .hero-book-panel .hero-title {
+      font-size: clamp(2rem, 11.2vw, 2.65rem);
+    }
+
+    .portfolio-app .hero-book-panel p {
+      font-size: 0.72rem;
+      line-height: 1.42;
+    }
+  }
+}
+

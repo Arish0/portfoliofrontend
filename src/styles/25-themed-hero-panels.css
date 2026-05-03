@@ -1,0 +1,97 @@
+﻿@layer components {
+  .portfolio-app .brand-tube {
+    color: white;
+    background: linear-gradient(135deg, var(--accent), var(--accent-3));
+    border-color: color-mix(in srgb, var(--accent) 34%, white);
+    box-shadow: 0 14px 32px color-mix(in srgb, var(--accent) 24%, transparent);
+  }
+
+  .portfolio-app .hero-stage {
+    overflow: visible;
+    border-color: var(--line);
+    background:
+      linear-gradient(135deg, color-mix(in srgb, var(--surface-strong) 92%, transparent), color-mix(in srgb, var(--surface) 82%, transparent)),
+      radial-gradient(circle at 82% 16%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 20rem),
+      radial-gradient(circle at 18% 82%, color-mix(in srgb, var(--accent-2) 14%, transparent), transparent 18rem);
+    box-shadow: var(--shadow);
+  }
+
+  .portfolio-app .hero-stage::before {
+    content: "";
+    position: absolute;
+    inset: 1.25rem;
+    border-radius: 1.2rem;
+    pointer-events: none;
+    border: 1px solid color-mix(in srgb, var(--accent) 16%, transparent);
+    animation: softPulse 4.8s ease-in-out infinite;
+  }
+
+  .portfolio-app .hero-stage::after {
+    background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--accent-2) 9%, transparent));
+  }
+
+  @keyframes softPulse {
+    0%, 100% {
+      opacity: 0.32;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.72;
+      transform: scale(1.01);
+    }
+  }
+
+  .portfolio-app .hero-title {
+    text-shadow: none;
+  }
+
+  .portfolio-app .clock-console,
+  .portfolio-app .metric-tile,
+  .portfolio-app .cyber-panel,
+  .portfolio-app .cyber-card,
+  .portfolio-app section.cyber-panel,
+  .portfolio-app .bg-white\/3 {
+    background: var(--surface);
+    border-color: var(--line);
+    box-shadow: var(--shadow);
+  }
+
+  .portfolio-app .clock-console {
+    grid-template-columns: auto 1fr auto;
+    animation: panelFloat 6.5s ease-in-out infinite;
+  }
+
+  @keyframes panelFloat {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-4px);
+    }
+  }
+
+  .portfolio-app .clock-tube {
+    color: white;
+    border: 0;
+    background: linear-gradient(160deg, var(--accent), var(--accent-2));
+    box-shadow: 0 16px 34px color-mix(in srgb, var(--accent) 22%, transparent);
+  }
+
+  .portfolio-app .clock-tube span {
+    text-shadow: none;
+  }
+
+  .theme-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    white-space: nowrap;
+    padding: 0.55rem 1rem;
+    border-radius: 999px;
+    color: white;
+    background: linear-gradient(135deg, var(--accent), var(--accent-3));
+    box-shadow: 0 12px 26px color-mix(in srgb, var(--accent) 18%, transparent);
+  }
+
+}

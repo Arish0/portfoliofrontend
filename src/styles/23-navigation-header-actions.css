@@ -1,0 +1,405 @@
+﻿@layer components {
+  .portfolio-nav {
+    position: fixed;
+    isolation: isolate;
+    overflow: hidden;
+    color: var(--text);
+    background:
+      linear-gradient(110deg, color-mix(in srgb, var(--surface-strong) 86%, transparent), color-mix(in srgb, var(--surface) 68%, transparent)),
+      radial-gradient(circle at 8% 40%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 18rem),
+      radial-gradient(circle at 92% 42%, color-mix(in srgb, var(--accent-2) 16%, transparent), transparent 16rem);
+    border-bottom-color: color-mix(in srgb, var(--accent) 18%, var(--line));
+    box-shadow:
+      0 18px 46px color-mix(in srgb, var(--text) 13%, transparent),
+      inset 0 1px 0 rgba(255, 255, 255, 0.36);
+    min-height: 4.55rem;
+    padding-top: 0.62rem;
+    padding-bottom: 0.62rem;
+  }
+
+  .portfolio-nav::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      linear-gradient(100deg, transparent 0 34%, rgba(255, 255, 255, 0.34) 45%, transparent 58%),
+      repeating-linear-gradient(90deg, transparent 0 5.5rem, color-mix(in srgb, var(--accent) 7%, transparent) 5.5rem 5.56rem);
+    opacity: 0.55;
+    transform: translateX(-42%);
+    animation: navLightSweep 8s ease-in-out infinite;
+  }
+
+  .portfolio-nav::after {
+    content: "";
+    position: absolute;
+    left: clamp(1rem, 4vw, 3rem);
+    right: clamp(1rem, 4vw, 3rem);
+    bottom: 0;
+    height: 1px;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent, var(--accent), var(--accent-2), transparent);
+    opacity: 0.72;
+  }
+
+  @keyframes navLightSweep {
+    0%, 100% {
+      transform: translateX(-48%);
+      opacity: 0.2;
+    }
+    45%, 58% {
+      transform: translateX(42%);
+      opacity: 0.68;
+    }
+  }
+
+  .portfolio-brand {
+    flex: 1 1 18rem;
+    max-width: min(34rem, 48vw);
+    position: relative;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    text-align: left;
+  }
+
+  .portfolio-brand .brand-tube {
+    position: relative;
+    width: 3.05rem;
+    height: 3.05rem;
+    flex: 0 0 3.05rem;
+    color: white;
+    background:
+      radial-gradient(circle at 30% 22%, rgba(255, 255, 255, 0.62), transparent 0.62rem),
+      linear-gradient(135deg, var(--accent), var(--accent-2) 58%, var(--accent-3));
+    border-color: rgba(255, 255, 255, 0.6);
+    box-shadow:
+      0 0 0 0.32rem color-mix(in srgb, var(--accent) 12%, transparent),
+      0 0.95rem 1.8rem color-mix(in srgb, var(--accent) 22%, transparent);
+    animation: brandPulse 4.5s ease-in-out infinite;
+  }
+
+  .portfolio-brand .brand-tube::after {
+    content: "";
+    position: absolute;
+    inset: -0.38rem;
+    z-index: -1;
+    border-radius: inherit;
+    border: 1px solid color-mix(in srgb, var(--accent) 32%, transparent);
+    opacity: 0.72;
+    animation: brandRing 2.8s ease-out infinite;
+  }
+
+  .portfolio-brand p:first-of-type {
+    font-size: 1.08rem;
+    line-height: 1.1;
+    color: var(--text);
+    text-shadow: 0 0.55rem 1.4rem color-mix(in srgb, var(--accent) 10%, transparent);
+  }
+
+  .portfolio-nav-actions {
+    flex: 0 1 auto;
+    justify-content: flex-end;
+  }
+
+  .header-action {
+    position: relative;
+    isolation: isolate;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .header-action:focus-visible {
+    box-shadow:
+      0 0 0 3px color-mix(in srgb, var(--accent) 24%, transparent),
+      0 0.7rem 1.7rem color-mix(in srgb, var(--accent) 18%, transparent);
+  }
+
+  .header-action:active {
+    transform: translateY(1px) scale(0.98);
+  }
+
+  .header-success-mark {
+    position: absolute;
+    right: 0.28rem;
+    top: 50%;
+    margin-top: -0.58rem;
+    z-index: 8;
+    width: 1.16rem;
+    height: 1.16rem;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    color: white;
+    background:
+      radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.52), transparent 0.32rem),
+      linear-gradient(135deg, #22c55e, #06b6d4);
+    box-shadow:
+      0 0.55rem 1.15rem rgba(34, 197, 94, 0.28),
+      0 0 0 0 color-mix(in srgb, #22c55e 28%, transparent);
+    opacity: 0;
+    transform: scale(0.42) rotate(-18deg);
+    pointer-events: none;
+  }
+
+  .header-success-mark::before {
+    content: "";
+    width: 0.5rem;
+    height: 0.3rem;
+    border-left: 0.14rem solid currentColor;
+    border-bottom: 0.14rem solid currentColor;
+    transform: translateY(-0.03rem) rotate(-45deg) scale(0.45);
+    opacity: 0;
+  }
+
+  .header-action-success {
+    animation: headerSuccessPress 760ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .header-action-success .header-success-mark {
+    animation: headerCheckPop 860ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .header-action-success .header-success-mark::before {
+    animation: headerTickDraw 520ms ease 130ms both;
+  }
+
+  .header-action-success::after {
+    transform: scaleX(1);
+  }
+
+  @keyframes headerSuccessPress {
+    0%, 100% {
+      filter: brightness(1);
+    }
+    28% {
+      filter: brightness(1.08) saturate(1.1);
+    }
+  }
+
+  @keyframes headerCheckPop {
+    0% {
+      opacity: 0;
+      transform: scale(0.32) rotate(-18deg);
+      box-shadow:
+        0 0.55rem 1.15rem rgba(34, 197, 94, 0.28),
+        0 0 0 0 color-mix(in srgb, #22c55e 28%, transparent);
+    }
+    24% {
+      opacity: 1;
+      transform: scale(1.14) rotate(4deg);
+    }
+    56% {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+      box-shadow:
+        0 0.55rem 1.15rem rgba(34, 197, 94, 0.28),
+        0 0 0 0.55rem color-mix(in srgb, #22c55e 0%, transparent);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(0.88) rotate(0deg);
+      box-shadow:
+        0 0.55rem 1.15rem rgba(34, 197, 94, 0),
+        0 0 0 0.85rem color-mix(in srgb, #22c55e 0%, transparent);
+    }
+  }
+
+  @keyframes headerTickDraw {
+    0% {
+      opacity: 0;
+      transform: translateY(-0.03rem) rotate(-45deg) scale(0.35);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(-0.03rem) rotate(-45deg) scale(1);
+    }
+  }
+
+  .portfolio-links {
+    align-items: center;
+    white-space: nowrap;
+    gap: 0.82rem;
+    padding: 0.42rem 0.58rem;
+    border: 1px solid color-mix(in srgb, var(--line) 74%, transparent);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--surface-strong) 54%, transparent);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.24);
+  }
+
+  .portfolio-links a {
+    position: relative;
+    overflow: visible;
+    color: color-mix(in srgb, var(--accent) 82%, #1d4ed8);
+    font-family: "Syne", sans-serif;
+    font-size: 0.98rem;
+    line-height: 1;
+    font-weight: 900;
+    letter-spacing: 0;
+    padding: 0.66rem 1.7rem 0.66rem 1.08rem;
+    border-radius: 999px;
+    text-shadow: 0 0.55rem 1.1rem color-mix(in srgb, var(--accent) 10%, transparent);
+    transition:
+      color 180ms ease,
+      background 180ms ease,
+      transform 180ms ease,
+      box-shadow 180ms ease;
+  }
+
+  .portfolio-links a::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 15%, transparent), color-mix(in srgb, var(--accent-2) 12%, transparent));
+    opacity: 0;
+    transform: scale(0.74);
+    transition: opacity 180ms ease, transform 180ms ease;
+  }
+
+  .portfolio-links a .header-success-mark {
+    right: 0.32rem;
+  }
+
+  .portfolio-brand .header-success-mark {
+    right: -1.65rem;
+  }
+
+  .theme-pull-switch .header-success-mark {
+    right: 0.46rem;
+  }
+
+  .portfolio-links a::after {
+    content: "";
+    position: absolute;
+    left: 0.82rem;
+    right: 0.82rem;
+    bottom: 0.28rem;
+    height: 2px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 180ms ease;
+  }
+
+  .portfolio-links a:hover {
+    color: #111827;
+    transform: translateY(-1px);
+    box-shadow: 0 0.6rem 1.4rem color-mix(in srgb, var(--accent) 13%, transparent);
+  }
+
+  .portfolio-links a:hover::before {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .portfolio-links a:hover::after {
+    transform: scaleX(1);
+  }
+
+  .portfolio-links a.header-action-success {
+    color: var(--text);
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
+    box-shadow: 0 0.7rem 1.5rem color-mix(in srgb, var(--accent) 17%, transparent);
+  }
+
+  .portfolio-links a.header-action-success::before {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .portfolio-brand.header-action-success .brand-tube {
+    animation: brandClickSuccess 820ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  @keyframes brandClickSuccess {
+    0%, 100% {
+      transform: scale(1);
+    }
+    35% {
+      transform: scale(1.08) rotate(-3deg);
+    }
+    62% {
+      transform: scale(0.98) rotate(2deg);
+    }
+  }
+
+  @keyframes brandPulse {
+    0%, 100% {
+      transform: translateY(0);
+      box-shadow:
+        0 0 0 0.32rem color-mix(in srgb, var(--accent) 12%, transparent),
+        0 0.95rem 1.8rem color-mix(in srgb, var(--accent) 22%, transparent);
+    }
+    50% {
+      transform: translateY(-1px);
+      box-shadow:
+        0 0 0 0.42rem color-mix(in srgb, var(--accent-2) 16%, transparent),
+        0 1.1rem 2.1rem color-mix(in srgb, var(--accent-2) 28%, transparent);
+    }
+  }
+
+  @keyframes brandRing {
+    0% {
+      transform: scale(0.88);
+      opacity: 0.58;
+    }
+    100% {
+      transform: scale(1.28);
+      opacity: 0;
+    }
+  }
+
+  .theme-dark .portfolio-nav {
+    background:
+      linear-gradient(110deg, rgba(10, 10, 13, 0.82), rgba(24, 23, 29, 0.72)),
+      radial-gradient(circle at 10% 34%, color-mix(in srgb, var(--accent) 20%, transparent), transparent 18rem),
+      radial-gradient(circle at 90% 48%, color-mix(in srgb, var(--accent-3) 17%, transparent), transparent 18rem);
+    box-shadow:
+      0 18px 48px rgba(0, 0, 0, 0.46),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+
+  .theme-light .portfolio-nav,
+  .theme-mint .portfolio-nav {
+    color: var(--text);
+  }
+
+  .theme-light .portfolio-nav .text-cyber-muted,
+  .theme-mint .portfolio-nav .text-cyber-muted {
+    color: color-mix(in srgb, var(--accent) 82%, var(--text));
+    font-weight: 700;
+  }
+
+  .theme-light .portfolio-links a,
+  .theme-mint .portfolio-links a {
+    color: color-mix(in srgb, var(--accent) 82%, #1d4ed8);
+  }
+
+  .theme-light .portfolio-links a:hover,
+  .theme-mint .portfolio-links a:hover {
+    color: var(--accent);
+  }
+
+  .theme-light .portfolio-brand p:first-of-type,
+  .theme-mint .portfolio-brand p:first-of-type {
+    color: #111827;
+  }
+
+  .theme-light .hero-stage .text-cyber-accent,
+  .theme-mint .hero-stage .text-cyber-accent,
+  .theme-light section .text-cyber-accent,
+  .theme-mint section .text-cyber-accent {
+    color: #2563eb;
+    text-shadow: 0 8px 24px rgba(37, 99, 235, 0.12);
+  }
+
+  .theme-light .hero-stage .text-cyber-accent\/60,
+  .theme-mint .hero-stage .text-cyber-accent\/60 {
+    color: #1d4ed8;
+    font-weight: 700;
+  }
+}

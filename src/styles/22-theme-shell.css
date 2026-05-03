@@ -1,0 +1,127 @@
+﻿@layer components {
+  html[data-portfolio-theme="light"] body,
+  html:not([data-portfolio-theme]) body {
+    color: #172033;
+    background:
+      linear-gradient(115deg, rgba(255, 255, 255, 0.82), rgba(238, 247, 255, 0.7)),
+      radial-gradient(circle at 18% 14%, rgba(56, 189, 248, 0.22), transparent 24rem),
+      radial-gradient(circle at 84% 22%, rgba(251, 191, 36, 0.2), transparent 21rem),
+      linear-gradient(180deg, #f8fbff 0%, #eef6fb 54%, #fff8ef 100%);
+  }
+
+  html[data-portfolio-theme="mint"] body {
+    color: #10251e;
+    background:
+      radial-gradient(circle at 20% 18%, rgba(20, 184, 166, 0.2), transparent 24rem),
+      radial-gradient(circle at 80% 20%, rgba(132, 204, 22, 0.16), transparent 20rem),
+      linear-gradient(180deg, #f5fff9 0%, #ecfdf5 48%, #f8fafc 100%);
+  }
+
+  html[data-portfolio-theme="dark"] body {
+    color: #f7efe4;
+    background:
+      radial-gradient(circle at 50% 18%, rgba(255, 157, 46, 0.18), transparent 24rem),
+      radial-gradient(circle at 78% 32%, rgba(109, 91, 255, 0.2), transparent 20rem),
+      linear-gradient(180deg, #111116 0%, #060708 52%, #151116 100%);
+  }
+
+  .portfolio-app {
+    position: relative;
+    isolation: isolate;
+    overflow-x: hidden;
+    --surface: rgba(255, 255, 255, 0.78);
+    --surface-strong: rgba(255, 255, 255, 0.94);
+    --surface-soft: rgba(255, 255, 255, 0.5);
+    --line: rgba(30, 41, 59, 0.1);
+    --text: #172033;
+    --muted: #64748b;
+    --accent: #2563eb;
+    --accent-2: #0ea5e9;
+    --accent-3: #06b6d4;
+    --shadow: 0 24px 70px rgba(15, 23, 42, 0.11);
+  }
+
+  .portfolio-app.theme-mint {
+    --surface: rgba(255, 255, 255, 0.76);
+    --surface-strong: rgba(255, 255, 255, 0.92);
+    --surface-soft: rgba(236, 253, 245, 0.62);
+    --line: rgba(15, 118, 110, 0.12);
+    --text: #10251e;
+    --muted: #52706a;
+    --accent: #0284c7;
+    --accent-2: #06b6d4;
+    --accent-3: #22c55e;
+    --shadow: 0 24px 70px rgba(20, 83, 45, 0.12);
+  }
+
+  .portfolio-app.theme-dark {
+    --surface: rgba(24, 23, 29, 0.92);
+    --surface-strong: rgba(18, 18, 23, 0.95);
+    --surface-soft: rgba(255, 255, 255, 0.04);
+    --line: rgba(255, 255, 255, 0.1);
+    --text: #f7efe4;
+    --muted: #b5adbd;
+    --accent: #ff9d2e;
+    --accent-2: #22d3c5;
+    --accent-3: #6d5bff;
+    --shadow: 0 28px 90px rgba(0, 0, 0, 0.42);
+  }
+
+  .portfolio-app,
+  .portfolio-app .text-cyber-text {
+    color: var(--text);
+  }
+
+  .portfolio-app section[id] {
+    scroll-margin-top: 6rem;
+  }
+
+  .portfolio-app .text-cyber-muted {
+    color: var(--muted);
+  }
+
+  .portfolio-app .text-cyber-accent {
+    color: var(--accent);
+  }
+
+  .portfolio-app .bg-cyber-accent {
+    background-color: var(--accent);
+  }
+
+  .portfolio-app .bg-cyber-accent\/12,
+  .portfolio-app .bg-cyber-accent\/10 {
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
+  }
+
+  .portfolio-app .border-cyber-accent\/20,
+  .portfolio-app .border-cyber-accent\/30 {
+    border-color: color-mix(in srgb, var(--accent) 28%, transparent);
+  }
+
+  .portfolio-app .text-blue-100 {
+    color: var(--text);
+  }
+
+  .ambient-ribbon {
+    position: fixed;
+    inset: 5rem -10vw auto;
+    z-index: -1;
+    height: 22rem;
+    pointer-events: none;
+    background:
+      linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent) 24%, transparent), transparent),
+      radial-gradient(circle at 68% 50%, color-mix(in srgb, var(--accent-2) 22%, transparent), transparent 18rem);
+    filter: blur(32px);
+    opacity: 0.85;
+    animation: ribbonDrift 14s ease-in-out infinite alternate;
+  }
+
+  @keyframes ribbonDrift {
+    from {
+      transform: translate3d(-4%, -1rem, 0) rotate(-2deg);
+    }
+    to {
+      transform: translate3d(4%, 1.6rem, 0) rotate(2deg);
+    }
+  }
+}

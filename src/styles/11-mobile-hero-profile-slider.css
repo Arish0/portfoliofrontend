@@ -1,0 +1,336 @@
+﻿@layer components {
+  @media (max-width: 960px) {
+    .portfolio-app main {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+
+    .portfolio-app .hero-stage,
+    .portfolio-app section.cyber-panel {
+      width: 100%;
+      max-width: none;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .portfolio-app .hero-stage {
+      gap: 1.5rem;
+      padding: 1.25rem;
+    }
+
+    .portfolio-app .hero-title {
+      font-size: clamp(2.3rem, 12vw, 4rem);
+      line-height: 0.98;
+      overflow-wrap: anywhere;
+    }
+
+    .portfolio-app .hero-flip-card {
+      min-height: 27rem;
+    }
+
+    .portfolio-app .hero-flip-back {
+      grid-template-columns: minmax(0, 0.82fr) minmax(0, 1fr);
+    }
+
+    .portfolio-app .grid.grid-cols-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .portfolio-app .profile-modal-panel {
+      grid-template-columns: 1fr;
+      width: min(42rem, 100%);
+      max-height: calc(100vh - 2rem);
+    }
+
+    .portfolio-app .profile-modal-media {
+      position: relative;
+      min-height: 20rem;
+      transform: none;
+    }
+
+    .portfolio-app .profile-modal-media img,
+    .portfolio-app .profile-modal-fallback {
+      min-height: 18.8rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .portfolio-nav {
+      max-height: calc(100vh - 1rem);
+      overflow-y: auto;
+    }
+
+    .portfolio-brand {
+      align-items: center;
+    }
+
+    .portfolio-brand .brand-tube {
+      width: 2.65rem;
+      height: 2.65rem;
+      flex: 0 0 auto;
+    }
+
+    .theme-pull-label strong {
+      font-size: 0.92rem;
+    }
+
+    .portfolio-app main {
+      padding-top: 1rem;
+    }
+
+    .portfolio-app .hero-stage {
+      border-radius: 1.15rem;
+      padding: 1rem;
+    }
+
+    .portfolio-app .hero-stage::before {
+      inset: 0.65rem;
+      border-radius: 0.9rem;
+    }
+
+    .portfolio-app .hero-book-panel,
+    .portfolio-app .profile-card-back {
+      border-radius: 1.25rem;
+      padding: 1.05rem;
+    }
+
+    .portfolio-app .hero-flip-card {
+      min-height: 26rem;
+    }
+
+    .portfolio-app .hero-book-panel {
+      justify-content: center;
+      gap: 0.72rem;
+      padding: 1rem;
+      border-radius: 1.15rem;
+    }
+
+    .portfolio-app .hero-book-panel::before {
+      inset: 0.48rem;
+      border-radius: 0.9rem;
+    }
+
+    .portfolio-app .hero-book-panel::after {
+      inset-inline: 1rem;
+      bottom: 0.8rem;
+    }
+
+    .portfolio-app .hero-book-panel > :first-child {
+      width: fit-content;
+      max-width: 100%;
+      padding: 0.42rem 0.62rem;
+      font-size: 0.6rem;
+      line-height: 1.18;
+      letter-spacing: 0.035em;
+      border-radius: 0.85rem;
+    }
+
+    .portfolio-app .hero-book-panel .hero-title {
+      font-size: clamp(2.15rem, 12vw, 2.95rem);
+      line-height: 1;
+    }
+
+    .portfolio-app .hero-book-panel .hero-title::after {
+      bottom: -0.34rem;
+      height: 0.16rem;
+    }
+
+    .portfolio-app .hero-book-panel p {
+      max-width: none;
+      font-size: 0.78rem;
+      line-height: 1.45;
+    }
+
+    .portfolio-app .hero-book-panel > :last-child {
+      width: 100%;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.45rem;
+    }
+
+    .portfolio-app .hero-book-panel > :last-child span:not(.text-white\/35) {
+      min-height: 2rem;
+      padding: 0.42rem 0.52rem 0.42rem 1.55rem;
+      border-radius: 0.78rem;
+      font-size: 0.56rem;
+      line-height: 1.12;
+    }
+
+    .portfolio-app .hero-book-panel > :last-child span:not(.text-white\/35)::before {
+      left: 0.48rem;
+      width: 0.62rem;
+      height: 0.62rem;
+    }
+
+    .portfolio-app .hero-flip-back {
+      grid-template-columns: 1fr;
+      gap: 0.85rem;
+      align-content: start;
+    }
+
+    .portfolio-app .profile-photo-stage {
+      width: min(100%, 13.5rem);
+      min-height: 16rem;
+      justify-self: center;
+      transform: none;
+    }
+
+    .portfolio-app .profile-back-copy {
+      text-align: center;
+      justify-items: center;
+    }
+
+    .portfolio-app .clock-console {
+      padding: 1rem;
+    }
+
+    .portfolio-app .grid.grid-cols-3 {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+
+    .portfolio-app .hero-shell {
+      padding: 0.75rem;
+      border-radius: 1rem;
+    }
+
+    .portfolio-app .slider-perspective {
+      min-height: 34rem;
+      border-radius: 0.85rem;
+    }
+
+    .portfolio-app .slide-card {
+      inset: 0.55rem;
+      grid-template-columns: 1fr;
+      align-content: start;
+      gap: 0.9rem;
+      padding: 0.8rem;
+    }
+
+    .portfolio-app .slide-card-behind {
+      opacity: 0 !important;
+      pointer-events: none;
+    }
+
+    .portfolio-app .slide-copy {
+      gap: 0.6rem;
+      transform: none;
+    }
+
+    .portfolio-app .slide-copy h3 {
+      font-size: 1.45rem;
+      line-height: 1.15;
+    }
+
+    .portfolio-app .slide-copy p {
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+
+    .portfolio-app .slide-media :is(img, video, div) {
+      height: 14rem;
+    }
+
+    .portfolio-app .code-window {
+      margin-top: 1rem;
+      padding: 1rem;
+    }
+
+    .portfolio-app .code-label {
+      position: static;
+      width: fit-content;
+      margin-bottom: 0.75rem;
+    }
+
+    .portfolio-app .slider-dots {
+      max-width: calc(100vw - 8rem);
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .portfolio-app .slider-dots::-webkit-scrollbar {
+      display: none;
+    }
+
+    .portfolio-app section.cyber-panel {
+      padding: 1.25rem;
+      border-radius: 1.15rem;
+    }
+
+    .portfolio-app section.cyber-panel h2 {
+      font-size: 2rem;
+      line-height: 1.1;
+    }
+
+    .portfolio-app #experience .grid.grid-cols-\[120px_1fr\] {
+      grid-template-columns: 1fr;
+    }
+
+    .portfolio-app #contact a {
+      flex-direction: column;
+      gap: 0.2rem;
+      overflow-wrap: anywhere;
+    }
+
+    .portfolio-app .profile-modal {
+      padding: 0.75rem;
+    }
+
+    .portfolio-app .profile-modal-panel {
+      border-radius: 1.25rem;
+    }
+
+    .portfolio-app .profile-modal-content h2 {
+      font-size: 2.2rem;
+    }
+
+    .portfolio-app .profile-modal-stats,
+    .portfolio-app .profile-modal-skills {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .portfolio-app .hero-flip-card {
+      min-height: 24rem;
+    }
+
+    .portfolio-app .hero-book-panel {
+      gap: 0.62rem;
+      padding: 0.88rem;
+    }
+
+    .portfolio-app .hero-book-panel .hero-title {
+      font-size: clamp(2rem, 11.2vw, 2.65rem);
+    }
+
+    .portfolio-app .hero-book-panel p {
+      font-size: 0.72rem;
+      line-height: 1.42;
+    }
+
+    .portfolio-app .hero-book-panel > :last-child {
+      align-items: flex-start;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.45rem;
+    }
+
+    .portfolio-app .hero-book-panel > :last-child .text-white\/35 {
+      display: none;
+    }
+
+    .portfolio-app .slider-perspective {
+      min-height: 36rem;
+    }
+
+    .portfolio-app .slide-media :is(img, video, div) {
+      height: 12rem;
+    }
+
+    .slider-arrow {
+      width: 2.2rem;
+      height: 2.2rem;
+    }
+  }
+}
+
